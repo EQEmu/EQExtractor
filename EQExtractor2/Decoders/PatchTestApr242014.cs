@@ -1,6 +1,6 @@
 ﻿namespace EQExtractor2.Decoders
 {
-    class PatchTestApr242014Decoder : PatchApril202014Decoder
+    class PatchTestApr242014Decoder : PatchApril032014Decoder
     {
         public PatchTestApr242014Decoder()
         {

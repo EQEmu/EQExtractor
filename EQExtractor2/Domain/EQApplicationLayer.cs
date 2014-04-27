@@ -51,7 +51,7 @@ namespace EQExtractor2.Domain
             PatchList = new List<PatchSpecficDecoder>();
             PatchList.Add(new PatchTestApr242014Decoder());
 
-            PatchList.Add(new PatchApril202014Decoder());
+            PatchList.Add(new PatchApril032014Decoder());
 
             PatchList.Add(new PatchMay122010Decoder());
 

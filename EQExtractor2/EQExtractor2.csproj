@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="Domain\OpcodeManager.cs" />
     <Compile Include="Decoders\PatchApril15-2013.cs" />
-    <Compile Include="Decoders\PatchApril202014Decoder.cs" />
+    <Compile Include="Decoders\PatchApril032014Decoder.cs" />
     <Compile Include="Decoders\PatchAug04-2011.cs" />
     <Compile Include="Decoders\PatchAugust15-2012.cs" />
     <Compile Include="Decoders\PatchDec7-2010.cs" />
@@ -166,7 +166,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\patch_Apr20-2014.conf">
+    <None Include="Configs\patch_Apr03-2014.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Configs\patch_April15-2013.conf">

@@ -5,13 +5,13 @@ using EQExtractor2.Domain;
 
 namespace EQExtractor2.Decoders
 {
-    internal class PatchApril202014Decoder : PatchApril152013Decoder, IPatchDecoder
+    internal class PatchApril032014Decoder : PatchApril152013Decoder, IPatchDecoder
     {
-        public PatchApril202014Decoder()
+        public PatchApril032014Decoder()
         {
-            Version = "EQ Client Build Date April 20 2014.";
+            Version = "EQ Client Build Date April  3 2014.";
 
-            PatchConfFileName = "patch_Apr20-2014.conf";
+            PatchConfFileName = "patch_Apr03-2014.conf";
             ExpectedPPLength = 26544;
             SupportsSQLGeneration = false;
         }

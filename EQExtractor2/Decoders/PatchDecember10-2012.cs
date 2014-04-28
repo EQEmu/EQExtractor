@@ -60,8 +60,6 @@ namespace EQExtractor2.Decoders
 
                 return -1;
             }
-
-            return ExpectedPPLength;
         }
 
         override public PositionUpdate Decode_OP_MobUpdate(byte[] mobUpdatePacket)
@@ -653,7 +651,7 @@ namespace EQExtractor2.Decoders
             }
         }
 
-        public virtual void ExploreTaskDescription(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreTaskDescription(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             UInt32 Seq = Buffer.ReadUInt32();
             UInt32 TaskID = Buffer.ReadUInt32();
@@ -705,7 +703,7 @@ namespace EQExtractor2.Decoders
 
         }
 
-        public virtual void ExploreOpenNewTasksWindow(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreOpenNewTasksWindow(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             UInt32 NumTasks = Buffer.ReadUInt32();
             UInt32 Unknown = Buffer.ReadUInt32();
@@ -773,7 +771,7 @@ namespace EQExtractor2.Decoders
         }
 
 
-        public void ExploreRequestClientZoneChange(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreRequestClientZoneChange(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             UInt32 ZoneID = Buffer.ReadUInt32();
             UInt32 Unknown = Buffer.ReadUInt32();
@@ -787,7 +785,7 @@ namespace EQExtractor2.Decoders
 
         }
 
-        public virtual void ExploreClientUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreClientUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             if (Direction == PacketDirection.ServerToClient)
             {
@@ -811,7 +809,7 @@ namespace EQExtractor2.Decoders
 
         }
 
-        public virtual void ExploreNPCMoveUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreNPCMoveUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             PositionUpdate PosUpdate;
 
@@ -820,7 +818,7 @@ namespace EQExtractor2.Decoders
             OutputStream.WriteLine("SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
         }
 
-        public virtual void ExploreMobUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreMobUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             PositionUpdate PosUpdate;
 
@@ -829,7 +827,7 @@ namespace EQExtractor2.Decoders
             OutputStream.WriteLine("SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
         }
 
-        public virtual void ExplorePlayerProfile(StreamWriter outputStream, ByteStream buffer, PacketDirection direction)
+        public override void ExplorePlayerProfile(StreamWriter outputStream, ByteStream buffer, PacketDirection direction)
         {
             outputStream.WriteLine("{0, -5}: Checksum = {1:X}", buffer.GetPosition(), buffer.ReadUInt32());
             outputStream.WriteLine("{0, -5}: ChecksumSize = {1:X}", buffer.GetPosition(), buffer.ReadUInt32());

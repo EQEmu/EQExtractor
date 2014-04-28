@@ -1217,131 +1217,131 @@ namespace EQExtractor2.Decoders
 
             return;
 
-            //Buffer.SkipBytes(236);  // Item Body Struct
+            ////Buffer.SkipBytes(236);  // Item Body Struct
 
-            UInt32 ID = buffer.ReadUInt32();
-            byte Weight = buffer.ReadByte();
-            byte NoRent = buffer.ReadByte();
-            byte NoDrop = buffer.ReadByte();
-            byte Attune = buffer.ReadByte();
-            byte Size = buffer.ReadByte();
+            //var ID = buffer.ReadUInt32();
+            //byte Weight = buffer.ReadByte();
+            //byte NoRent = buffer.ReadByte();
+            //byte NoDrop = buffer.ReadByte();
+            //byte Attune = buffer.ReadByte();
+            //byte Size = buffer.ReadByte();
 
-            outputStream.WriteLine("   ID: {0} Weight: {1} NoRent: {2} NoDrop: {3} Attune {4} Size {5}", ID, Weight, NoRent, NoDrop, Attune, Size);
+            //outputStream.WriteLine("   ID: {0} Weight: {1} NoRent: {2} NoDrop: {3} Attune {4} Size {5}", ID, Weight, NoRent, NoDrop, Attune, Size);
 
-            UInt32 Slots = buffer.ReadUInt32();
-            //UInt32 Price = Buffer.ReadUInt32();
-            UInt32 Icon = buffer.ReadUInt32();
-            buffer.SkipBytes(2);
-            UInt32 BenefitFlags = buffer.ReadUInt32();
-            byte Tradeskills = buffer.ReadByte();
+            //UInt32 Slots = buffer.ReadUInt32();
+            ////UInt32 Price = Buffer.ReadUInt32();
+            //UInt32 Icon = buffer.ReadUInt32();
+            //buffer.SkipBytes(2);
+            //UInt32 BenefitFlags = buffer.ReadUInt32();
+            //byte Tradeskills = buffer.ReadByte();
 
-            outputStream.WriteLine("   Slots: {0} Price: {1} Icon: {2} BenefitFlags {3} Tradeskills: {4}", Slots, Price, Icon, BenefitFlags, Tradeskills);
+            //outputStream.WriteLine("   Slots: {0} Price: {1} Icon: {2} BenefitFlags {3} Tradeskills: {4}", Slots, Price, Icon, BenefitFlags, Tradeskills);
 
-            byte CR = buffer.ReadByte();
-            byte DR = buffer.ReadByte();
-            byte PR = buffer.ReadByte();
-            byte MR = buffer.ReadByte();
-            byte FR = buffer.ReadByte();
-            byte SVC = buffer.ReadByte();
+            //byte CR = buffer.ReadByte();
+            //byte DR = buffer.ReadByte();
+            //byte PR = buffer.ReadByte();
+            //byte MR = buffer.ReadByte();
+            //byte FR = buffer.ReadByte();
+            //byte SVC = buffer.ReadByte();
 
-            outputStream.WriteLine("   CR: {0} DR: {1} PR: {2} MR: {3} FR: {4} SVC: {5}", CR, DR, PR, MR, FR, SVC);
+            //outputStream.WriteLine("   CR: {0} DR: {1} PR: {2} MR: {3} FR: {4} SVC: {5}", CR, DR, PR, MR, FR, SVC);
 
-            byte AStr = buffer.ReadByte();
-            byte ASta = buffer.ReadByte();
-            byte AAgi = buffer.ReadByte();
-            byte ADex = buffer.ReadByte();
-            byte ACha = buffer.ReadByte();
-            byte AInt = buffer.ReadByte();
-            byte AWis = buffer.ReadByte();
+            //byte AStr = buffer.ReadByte();
+            //byte ASta = buffer.ReadByte();
+            //byte AAgi = buffer.ReadByte();
+            //byte ADex = buffer.ReadByte();
+            //byte ACha = buffer.ReadByte();
+            //byte AInt = buffer.ReadByte();
+            //byte AWis = buffer.ReadByte();
 
-            outputStream.WriteLine("   AStr: {0} ASta: {1} AAgi: {2} ADex: {3} ACha: {4} AInt: {5} AWis: {6}", AStr, ASta, AAgi, ADex, ACha, AInt, AWis);
+            //outputStream.WriteLine("   AStr: {0} ASta: {1} AAgi: {2} ADex: {3} ACha: {4} AInt: {5} AWis: {6}", AStr, ASta, AAgi, ADex, ACha, AInt, AWis);
 
-            Int32 HP = buffer.ReadInt32();
-            Int32 Mana = buffer.ReadInt32();
-            UInt32 Endurance = buffer.ReadUInt32();
-            Int32 AC = buffer.ReadInt32();
-            Int32 Regen = buffer.ReadInt32();
-            Int32 ManaRegen = buffer.ReadInt32();
-            Int32 EndRegen = buffer.ReadInt32();
-            UInt32 Classes = buffer.ReadUInt32();
-            UInt32 Races = buffer.ReadUInt32();
-            UInt32 Deity = buffer.ReadUInt32();
-            Int32 SkillModValue = buffer.ReadInt32();
-            buffer.SkipBytes(4);
-            UInt32 SkillModType = buffer.ReadUInt32();
-            UInt32 BaneDamageRace = buffer.ReadUInt32();
-            UInt32 BaneDamageBody = buffer.ReadUInt32();
-            UInt32 BaneDamageRaceAmount = buffer.ReadUInt32();
-            Int32 BaneDamageAmount = buffer.ReadInt32();
-            byte Magic = buffer.ReadByte();
-            Int32 CastTime = buffer.ReadInt32();
-            UInt32 ReqLevel = buffer.ReadUInt32();
-            UInt32 RecLevel = buffer.ReadUInt32();
-            UInt32 ReqSkill = buffer.ReadUInt32();
-            UInt32 BardType = buffer.ReadUInt32();
-            Int32 BardValue = buffer.ReadInt32();
-            byte Light = buffer.ReadByte();
-            byte Delay = buffer.ReadByte();
-            byte ElemDamageAmount = buffer.ReadByte();
-            byte ElemDamageType = buffer.ReadByte();
-            byte Range = buffer.ReadByte();
-            UInt32 Damage = buffer.ReadUInt32();
-            UInt32 Color = buffer.ReadUInt32();
-            byte ItemType = buffer.ReadByte();
-            UInt32 Material = buffer.ReadUInt32();
-            buffer.SkipBytes(4);
-            UInt32 EliteMaterial = buffer.ReadUInt32();
-            float SellRate = buffer.ReadSingle();
-            Int32 CombatEffects = buffer.ReadInt32();
-            Int32 Shielding = buffer.ReadInt32();
-            Int32 StunResist = buffer.ReadInt32();
-            Int32 StrikeThrough = buffer.ReadInt32();
-            Int32 ExtraDamageSkill = buffer.ReadInt32();
-            Int32 ExtraDamageAmount = buffer.ReadInt32();
-            Int32 SpellShield = buffer.ReadInt32();
-            Int32 Avoidance = buffer.ReadInt32();
-            Int32 Accuracy = buffer.ReadInt32();
-            UInt32 CharmFileID = buffer.ReadUInt32();
-            UInt32 FactionMod1 = buffer.ReadUInt32();
-            Int32 FactionAmount1 = buffer.ReadInt32();
-            UInt32 FactionMod2 = buffer.ReadUInt32();
-            Int32 FactionAmount2 = buffer.ReadInt32();
-            UInt32 FactionMod3 = buffer.ReadUInt32();
-            Int32 FactionAmount3 = buffer.ReadInt32();
-            UInt32 FactionMod4 = buffer.ReadUInt32();
-            Int32 FactionAmount4 = buffer.ReadInt32();
+            //Int32 HP = buffer.ReadInt32();
+            //Int32 Mana = buffer.ReadInt32();
+            //UInt32 Endurance = buffer.ReadUInt32();
+            //Int32 AC = buffer.ReadInt32();
+            //Int32 Regen = buffer.ReadInt32();
+            //Int32 ManaRegen = buffer.ReadInt32();
+            //Int32 EndRegen = buffer.ReadInt32();
+            //UInt32 Classes = buffer.ReadUInt32();
+            //UInt32 Races = buffer.ReadUInt32();
+            //UInt32 Deity = buffer.ReadUInt32();
+            //Int32 SkillModValue = buffer.ReadInt32();
+            //buffer.SkipBytes(4);
+            //UInt32 SkillModType = buffer.ReadUInt32();
+            //UInt32 BaneDamageRace = buffer.ReadUInt32();
+            //UInt32 BaneDamageBody = buffer.ReadUInt32();
+            //UInt32 BaneDamageRaceAmount = buffer.ReadUInt32();
+            //Int32 BaneDamageAmount = buffer.ReadInt32();
+            //byte Magic = buffer.ReadByte();
+            //Int32 CastTime = buffer.ReadInt32();
+            //UInt32 ReqLevel = buffer.ReadUInt32();
+            //UInt32 RecLevel = buffer.ReadUInt32();
+            //UInt32 ReqSkill = buffer.ReadUInt32();
+            //UInt32 BardType = buffer.ReadUInt32();
+            //Int32 BardValue = buffer.ReadInt32();
+            //byte Light = buffer.ReadByte();
+            //byte Delay = buffer.ReadByte();
+            //byte ElemDamageAmount = buffer.ReadByte();
+            //byte ElemDamageType = buffer.ReadByte();
+            //byte Range = buffer.ReadByte();
+            //UInt32 Damage = buffer.ReadUInt32();
+            //UInt32 Color = buffer.ReadUInt32();
+            //byte ItemType = buffer.ReadByte();
+            //UInt32 Material = buffer.ReadUInt32();
+            //buffer.SkipBytes(4);
+            //UInt32 EliteMaterial = buffer.ReadUInt32();
+            //float SellRate = buffer.ReadSingle();
+            //Int32 CombatEffects = buffer.ReadInt32();
+            //Int32 Shielding = buffer.ReadInt32();
+            //Int32 StunResist = buffer.ReadInt32();
+            //Int32 StrikeThrough = buffer.ReadInt32();
+            //Int32 ExtraDamageSkill = buffer.ReadInt32();
+            //Int32 ExtraDamageAmount = buffer.ReadInt32();
+            //Int32 SpellShield = buffer.ReadInt32();
+            //Int32 Avoidance = buffer.ReadInt32();
+            //Int32 Accuracy = buffer.ReadInt32();
+            //UInt32 CharmFileID = buffer.ReadUInt32();
+            //UInt32 FactionMod1 = buffer.ReadUInt32();
+            //Int32 FactionAmount1 = buffer.ReadInt32();
+            //UInt32 FactionMod2 = buffer.ReadUInt32();
+            //Int32 FactionAmount2 = buffer.ReadInt32();
+            //UInt32 FactionMod3 = buffer.ReadUInt32();
+            //Int32 FactionAmount3 = buffer.ReadInt32();
+            //UInt32 FactionMod4 = buffer.ReadUInt32();
+            //Int32 FactionAmount4 = buffer.ReadInt32();
 
-            buffer.ReadString(true);    // Charm File
-            buffer.SkipBytes(64);   // Item Secondary Body Struct
-            buffer.ReadString(true);    // Filename
-            buffer.SkipBytes(76);   // Item Tertiary Body Struct
-            buffer.SkipBytes(30);   // Click Effect Struct
-            buffer.ReadString(true);    // Clickname
-            buffer.SkipBytes(4);    // clickunk7
-            buffer.SkipBytes(30);   // Proc Effect Struct
-            buffer.ReadString(true);    // Proc Name
-            buffer.SkipBytes(4);    // unknown5
-            buffer.SkipBytes(30);   // Worn Effect Struct
-            buffer.ReadString(true);    // Worn Name
-            buffer.SkipBytes(4);    // unknown6
-            buffer.SkipBytes(30);   // Worn Effect Struct
-            buffer.ReadString(true);    // Worn Name
-            buffer.SkipBytes(4);    // unknown6
-            buffer.SkipBytes(30);   // Worn Effect Struct
-            buffer.ReadString(true);    // Worn Name
-            buffer.SkipBytes(4);    // unknown6
-            buffer.SkipBytes(30);   // Worn Effect Struct
-            buffer.ReadString(true);    // Worn Name
-            buffer.SkipBytes(4);    // unknown6
-            buffer.SkipBytes(103);   // Item Quaternary Body Struct - 4 (we want to read the SubLength field at the end)
+            //buffer.ReadString(true);    // Charm File
+            //buffer.SkipBytes(64);   // Item Secondary Body Struct
+            //buffer.ReadString(true);    // Filename
+            //buffer.SkipBytes(76);   // Item Tertiary Body Struct
+            //buffer.SkipBytes(30);   // Click Effect Struct
+            //buffer.ReadString(true);    // Clickname
+            //buffer.SkipBytes(4);    // clickunk7
+            //buffer.SkipBytes(30);   // Proc Effect Struct
+            //buffer.ReadString(true);    // Proc Name
+            //buffer.SkipBytes(4);    // unknown5
+            //buffer.SkipBytes(30);   // Worn Effect Struct
+            //buffer.ReadString(true);    // Worn Name
+            //buffer.SkipBytes(4);    // unknown6
+            //buffer.SkipBytes(30);   // Worn Effect Struct
+            //buffer.ReadString(true);    // Worn Name
+            //buffer.SkipBytes(4);    // unknown6
+            //buffer.SkipBytes(30);   // Worn Effect Struct
+            //buffer.ReadString(true);    // Worn Name
+            //buffer.SkipBytes(4);    // unknown6
+            //buffer.SkipBytes(30);   // Worn Effect Struct
+            //buffer.ReadString(true);    // Worn Name
+            //buffer.SkipBytes(4);    // unknown6
+            //buffer.SkipBytes(103);   // Item Quaternary Body Struct - 4 (we want to read the SubLength field at the end)
 
-            //UInt32 SubLengths = Buffer.ReadUInt32();
+            ////UInt32 SubLengths = Buffer.ReadUInt32();
 
-            for (int i = 0; i < SubLengths; ++i)
-            {
-                buffer.SkipBytes(4);
-                ExploreSubItem(outputStream, ref buffer);
-            }
+            //for (int i = 0; i < SubLengths; ++i)
+            //{
+            //    buffer.SkipBytes(4);
+            //    ExploreSubItem(outputStream, ref buffer);
+            //}
         }
 
         override public bool DumpAAs(string fileName)

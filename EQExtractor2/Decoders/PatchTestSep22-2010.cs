@@ -139,7 +139,7 @@ namespace EQExtractor2.Decoders
             outputStream.WriteLine("");
         }
 
-        public virtual void ExploreSubItem(StreamWriter OutputStream, ref ByteStream Buffer)
+        public override void ExploreSubItem(StreamWriter OutputStream, ref ByteStream Buffer)
         {
             Buffer.SkipBytes(17);
             Buffer.SkipBytes(8);

@@ -12,7 +12,7 @@ namespace EQExtractor2.Decoders
             Version = "EQ Client Build Date April  3 2014.";
 
             PatchConfFileName = "patch_Apr03-2014.conf";
-            ExpectedPPLength = 26544;
+            ExpectedPPLength = 26544; 
             SupportsSQLGeneration = false;
         }
 

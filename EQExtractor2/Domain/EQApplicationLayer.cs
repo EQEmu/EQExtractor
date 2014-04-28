@@ -38,7 +38,7 @@ namespace EQExtractor2.Domain
         public EQStreamProcessor()
         {
             ZonePointList = null;
-            if(_lookups==null)_lookups = ZoneLookups.Deserialize("ZoneLookups.xml");
+            if(_lookups==null)_lookups = ZoneLookups.Deserialize("Configs/ZoneLookups.xml");
             Packets = new PacketManager();
 
             // Tell the PacketManager to call our Identify method to identify the packet stream. We will then call the different

@@ -14,35 +14,38 @@ namespace EQExtractor2
 {
     public delegate void LogCallback(string message);
 
+    /// <summary>
+    /// Main GUI form. Wherever possible, please add non-UI code to Domain/
+    /// </summary>
+    /// 
     public partial class EQExtractor2Form1 : Form
     {
-        string Version = "EQExtractor2 Version 2.6.4 GIT";
+        #if DEBUG
+        private const string _configuration = "(Debug Build)";
+        #else 
+        private const string _configuration = "(Release Build)";
+        #endif
 
-        static int PacketsSeen = 0;
-        static long BytesRead = 0;
-        static long CaptureFileSize = 0;
-        string ZoneName;
-        string SpawnNameFilter = "";
-        bool CoalesceWaypoints = true;
+        private const int PacketsSeen = 0;
+        string _zoneName=string.Empty;
 
-        readonly GenerateSQLForm SQLForm = new GenerateSQLForm();
-        readonly LogForm DebugLog = new LogForm();
-        readonly UserOptions Options = new UserOptions();
+        readonly GenerateSQLForm _sqlForm = new GenerateSQLForm();
+        readonly LogForm _debugLog = new LogForm();
+        readonly UserOptions _options = new UserOptions();
 
-        StreamWriter SQLStream;
+
         StreamWriter PacketDebugStream;
-
-        //EQStreamProcessor StreamProcessor;
-
         private PCapProcessor _processor;
+        private readonly string _versionText = string.Empty;
 
         public EQExtractor2Form1()
         {
+            _versionText = string.Format("EQExtractor2 Version {0} {1}", GetType().Assembly.GetName().Version,_configuration);
             InitializeComponent();
             DisplayUsageInfo();
-            Options.PacketDumpViewerProgram.Text = Properties.Settings.Default.TextFileViewer;
-            Options.ShowDebugWindowOnStartup.Checked = Properties.Settings.Default.ShowDebugWindowOnStartup;
-            Options.ShowTimeStamps.Checked = Properties.Settings.Default.DumpTimeStamps;
+            _options.PacketDumpViewerProgram.Text = Properties.Settings.Default.TextFileViewer;
+            _options.ShowDebugWindowOnStartup.Checked = Properties.Settings.Default.ShowDebugWindowOnStartup;
+            _options.ShowTimeStamps.Checked = Properties.Settings.Default.DumpTimeStamps;
         }
 
         
@@ -55,8 +58,8 @@ namespace EQExtractor2
             }
             else
             {
-                if(!string.IsNullOrEmpty(message))DebugLog.ConsoleWindow.Items.Add(message);
-                DebugLog.ConsoleWindow.SelectedIndex = DebugLog.ConsoleWindow.Items.Count - 1;
+                if(!string.IsNullOrEmpty(message))_debugLog.ConsoleWindow.Items.Add(message);
+                _debugLog.ConsoleWindow.SelectedIndex = _debugLog.ConsoleWindow.Items.Count - 1;
                 Application.DoEvents();
             }
         }
@@ -121,6 +124,19 @@ namespace EQExtractor2
             if (string.IsNullOrEmpty(capFile)) return;
             var bw = sender as BackgroundWorker;
             if (bw == null) throw new ArgumentNullException("sender");
+
+            if (_options.EQPacketDebugFilename.Text.Length > 0)
+            {
+                try
+                {
+                    PacketDebugStream = new StreamWriter(_options.EQPacketDebugFilename.Text);
+                }
+                catch
+                {
+                    Log("Failed to open netcode debug file for writing.");
+                    _options.EQPacketDebugFilename.Text = "";
+                }
+            }
             _processor = new PCapProcessor(Log,PacketDebugLogger,SetStatus,bw.ReportProgress);
             _processor.ProcessPCapFile(capFile);
         }
@@ -130,14 +146,14 @@ namespace EQExtractor2
             if (e.Error != null || _processor==null) return;
             ProgressBar.Hide();
 
-            if (Options.EQPacketDebugFilename.Text.Length > 0)
+            if (_options.EQPacketDebugFilename.Text.Length > 0)
                 PacketDebugStream.Close();
 
-            PacketCountLabel.Text = PacketsSeen.ToString();
+            PacketCountLabel.Text = _processor.PacketsSeen.ToString();
             if ( _processor.StreamProcessor.Packets.ErrorsInStream)
                 Log("There were errors encountered in the packet stream. Data may be incomplete.");
 
-            DebugLog.ConsoleWindow.SelectedIndex = DebugLog.ConsoleWindow.Items.Count - 1;
+            _debugLog.ConsoleWindow.SelectedIndex = _debugLog.ConsoleWindow.Items.Count - 1;
 
             menuFile.Enabled = true;
 
@@ -172,7 +188,7 @@ namespace EQExtractor2
             else
                 StatusBar.Text = "Client version recognised. *SQL GENERATION NOT SUPPORTED FOR THIS CLIENT*";
 
-            ZoneName = _processor.StreamProcessor.GetZoneName();
+            _zoneName = _processor.StreamProcessor.GetZoneName();
 
             UInt32 zoneNumber = _processor.StreamProcessor.GetZoneNumber();
 
@@ -182,24 +198,24 @@ namespace EQExtractor2
 
             ZoneLabel.Text = _processor.StreamProcessor.GetZoneLongName() + " [" + _processor.StreamProcessor.GetZoneName() + "] (" + zoneNumber.ToString() + ")";
 
-            SQLForm.ZoneIDTextBox.Text = zoneNumber.ToString();
-            SQLForm.ZoneIDTextBox.Enabled = true;
-            SQLForm.DoorsTextBox.Enabled = true;
-            SQLForm.NPCTypesTextBox.Enabled = true;
-            SQLForm.SpawnEntryTextBox.Enabled = true;
-            SQLForm.SpawnGroupTextBox.Enabled = true;
-            SQLForm.Spawn2TextBox.Enabled = true;
-            SQLForm.GridTextBox.Enabled = true;
-            SQLForm.ObjectTextBox.Enabled = true;
-            SQLForm.GroundSpawnTextBox.Enabled = true;
-            SQLForm.MerchantTextBox.Enabled = true;
-            SQLForm.VersionSelector.Enabled = true;
+            _sqlForm.ZoneIDTextBox.Text = zoneNumber.ToString();
+            _sqlForm.ZoneIDTextBox.Enabled = true;
+            _sqlForm.DoorsTextBox.Enabled = true;
+            _sqlForm.NPCTypesTextBox.Enabled = true;
+            _sqlForm.SpawnEntryTextBox.Enabled = true;
+            _sqlForm.SpawnGroupTextBox.Enabled = true;
+            _sqlForm.Spawn2TextBox.Enabled = true;
+            _sqlForm.GridTextBox.Enabled = true;
+            _sqlForm.ObjectTextBox.Enabled = true;
+            _sqlForm.GroundSpawnTextBox.Enabled = true;
+            _sqlForm.MerchantTextBox.Enabled = true;
+            _sqlForm.VersionSelector.Enabled = true;
             menuGenerateSQL.Enabled = _processor.StreamProcessor.SupportsSQLGeneration();
             menuPacketDump.Enabled = true;
             menuViewPackets.Enabled = true;
             menuDumpAAs.Enabled = true;
 
-            SQLForm.RecalculateBaseInsertIDs();
+            _sqlForm.RecalculateBaseInsertIDs();
 
             _processor.StreamProcessor.GenerateZonePointList();
         }
@@ -207,46 +223,46 @@ namespace EQExtractor2
 
         private void menuGenerateSQL_Click(object sender, EventArgs e)
         {
-            if (SQLForm.ShowDialog() != DialogResult.OK)
+            if (_sqlForm.ShowDialog() != DialogResult.OK)
                 return;
             try
             {
                 var config = new SqlGeneratorConfiguration
                 {
-                    SpawnDBID = Convert.ToUInt32(SQLForm.NPCTypesTextBox.Text),
-                    SpawnGroupID = Convert.ToUInt32(SQLForm.SpawnGroupTextBox.Text),
-                    SpawnEntryID = Convert.ToUInt32(SQLForm.SpawnEntryTextBox.Text),
-                    Spawn2ID = Convert.ToUInt32(SQLForm.Spawn2TextBox.Text),
-                    GridDBID = Convert.ToUInt32(SQLForm.GridTextBox.Text),
-                    MerchantDBID = Convert.ToUInt32(SQLForm.MerchantTextBox.Text),
-                    DoorDBID = Convert.ToInt32(SQLForm.DoorsTextBox.Text),
-                    GroundSpawnDBID = Convert.ToUInt32(SQLForm.GroundSpawnTextBox.Text),
-                    ObjectDBID = Convert.ToUInt32(SQLForm.ObjectTextBox.Text),
-                    ZoneID = Convert.ToUInt32(SQLForm.ZoneIDTextBox.Text),
-                    SpawnNameFilter = SQLForm.SpawnNameFilter.Text,
-                    CoalesceWaypoints = SQLForm.CoalesceWaypoints.Checked,
-                    GenerateZone = SQLForm.ZoneCheckBox.Checked,
-                    GenerateZonePoint = SQLForm.ZonePointCheckBox.Checked,
-                    ZoneName = ZoneName,
-                    SpawnVersion = (UInt32)SQLForm.VersionSelector.Value,
-                    GenerateDoors = SQLForm.DoorCheckBox.Checked,
-                    GenerateSpawns = SQLForm.SpawnCheckBox.Checked,
-                    GenerateGrids = SQLForm.GridCheckBox.Checked,
-                    GenerateMerchants = SQLForm.MerchantCheckBox.Checked,
-                    UpdateExistingNPCTypes = SQLForm.UpdateExistingNPCTypesCheckbox.Checked,
-                    UseNPCTypesTint = SQLForm.NPCTypesTintCheckBox.Checked,
-                    GenerateInvisibleMen = SQLForm.InvisibleMenCheckBox.Checked,
-                    GenerateGroundSpawns = SQLForm.GroundSpawnCheckBox.Checked,
-                    GenerateObjects = SQLForm.ObjectCheckBox.Checked
+                    SpawnDBID = Convert.ToUInt32(_sqlForm.NPCTypesTextBox.Text),
+                    SpawnGroupID = Convert.ToUInt32(_sqlForm.SpawnGroupTextBox.Text),
+                    SpawnEntryID = Convert.ToUInt32(_sqlForm.SpawnEntryTextBox.Text),
+                    Spawn2ID = Convert.ToUInt32(_sqlForm.Spawn2TextBox.Text),
+                    GridDBID = Convert.ToUInt32(_sqlForm.GridTextBox.Text),
+                    MerchantDBID = Convert.ToUInt32(_sqlForm.MerchantTextBox.Text),
+                    DoorDBID = Convert.ToInt32(_sqlForm.DoorsTextBox.Text),
+                    GroundSpawnDBID = Convert.ToUInt32(_sqlForm.GroundSpawnTextBox.Text),
+                    ObjectDBID = Convert.ToUInt32(_sqlForm.ObjectTextBox.Text),
+                    ZoneID = Convert.ToUInt32(_sqlForm.ZoneIDTextBox.Text),
+                    SpawnNameFilter = _sqlForm.SpawnNameFilter.Text,
+                    CoalesceWaypoints = _sqlForm.CoalesceWaypoints.Checked,
+                    GenerateZone = _sqlForm.ZoneCheckBox.Checked,
+                    GenerateZonePoint = _sqlForm.ZonePointCheckBox.Checked,
+                    ZoneName = _zoneName,
+                    SpawnVersion = (UInt32)_sqlForm.VersionSelector.Value,
+                    GenerateDoors = _sqlForm.DoorCheckBox.Checked,
+                    GenerateSpawns = _sqlForm.SpawnCheckBox.Checked,
+                    GenerateGrids = _sqlForm.GridCheckBox.Checked,
+                    GenerateMerchants = _sqlForm.MerchantCheckBox.Checked,
+                    UpdateExistingNPCTypes = _sqlForm.UpdateExistingNPCTypesCheckbox.Checked,
+                    UseNPCTypesTint = _sqlForm.NPCTypesTintCheckBox.Checked,
+                    GenerateInvisibleMen = _sqlForm.InvisibleMenCheckBox.Checked,
+                    GenerateGroundSpawns = _sqlForm.GroundSpawnCheckBox.Checked,
+                    GenerateObjects = _sqlForm.ObjectCheckBox.Checked
                 };
 
-                var sqlgenerator = new SqlGenerator(SQLForm.FileName, _processor.StreamProcessor,config,Log,SetStatus);
+                var sqlgenerator = new SqlGenerator(_sqlForm.FileName, _processor.StreamProcessor,config,Log,SetStatus);
                 sqlgenerator.GenerateSql();
             }
             catch (IOException)
             {
-                Log("Unable to open file " + SQLForm.FileName + " for writing.");
-                StatusBar.Text = "Unable to open file " + SQLForm.FileName + " for writing.";
+                Log("Unable to open file " + _sqlForm.FileName + " for writing.");
+                StatusBar.Text = "Unable to open file " + _sqlForm.FileName + " for writing.";
             }
 
         }
@@ -315,7 +331,7 @@ namespace EQExtractor2
 
         private void menuViewDebugLog_Click(object sender, EventArgs e)
         {
-            menuViewDebugLog.Checked = DebugLog.Visible;
+            menuViewDebugLog.Checked = _debugLog.Visible;
 
             if (!menuViewDebugLog.Checked)
             {
@@ -326,7 +342,7 @@ namespace EQExtractor2
             else
             {
                 menuViewDebugLog.Checked = false;
-                DebugLog.Hide();
+                _debugLog.Hide();
             }
         }
 
@@ -361,6 +377,7 @@ namespace EQExtractor2
 
         private void EQExtractor2Form1_Load(object sender, EventArgs e)
         {
+            Text = _versionText;
             if (Properties.Settings.Default.ShowDebugWindowOnStartup)
             {
                 ShowDebugLog();
@@ -369,15 +386,7 @@ namespace EQExtractor2
 
         private void DisplayUsageInfo()
         {
-#if DEBUG
-            Version += " (Debug Build)";
-#else
-            Version += " (Release Build)";
-#endif
-            Text = Version;
-
-            Log(Version + " Initialised.");
-
+            Log(_versionText + " Initialised.");
             Log("");
             Log("Instructions:");
             Log("Generate a .pcap file using Wireshark. To do this, park a character in the zone you want to collect in.");
@@ -395,45 +404,45 @@ namespace EQExtractor2
         private void menuOptions_Click(object sender, EventArgs e)
         {
 
-            if (Options.ShowDialog() == DialogResult.OK)
+            if (_options.ShowDialog() == DialogResult.OK)
             {
-                Properties.Settings.Default.TextFileViewer = Options.PacketDumpViewerProgram.Text;
-                Properties.Settings.Default.ShowDebugWindowOnStartup = Options.ShowDebugWindowOnStartup.Checked;
-                Properties.Settings.Default.DumpTimeStamps = Options.ShowTimeStamps.Checked;
+                Properties.Settings.Default.TextFileViewer = _options.PacketDumpViewerProgram.Text;
+                Properties.Settings.Default.ShowDebugWindowOnStartup = _options.ShowDebugWindowOnStartup.Checked;
+                Properties.Settings.Default.DumpTimeStamps = _options.ShowTimeStamps.Checked;
                 Properties.Settings.Default.Save();
 
                 if (Properties.Settings.Default.ShowDebugWindowOnStartup)
                 {
-                    if (!DebugLog.Visible)
+                    if (!_debugLog.Visible)
                         ShowDebugLog();
                 }
                 else
                 {
-                    if (!DebugLog.Visible) return;
-                    DebugLog.Hide();
+                    if (!_debugLog.Visible) return;
+                    _debugLog.Hide();
                     menuViewDebugLog.Checked = false;
                 }
             }
             else
             {
-                Options.PacketDumpViewerProgram.Text = Properties.Settings.Default.TextFileViewer;
-                Options.ShowDebugWindowOnStartup.Checked = Properties.Settings.Default.ShowDebugWindowOnStartup;
-                Options.ShowTimeStamps.Checked = Properties.Settings.Default.DumpTimeStamps;
+                _options.PacketDumpViewerProgram.Text = Properties.Settings.Default.TextFileViewer;
+                _options.ShowDebugWindowOnStartup.Checked = Properties.Settings.Default.ShowDebugWindowOnStartup;
+                _options.ShowTimeStamps.Checked = Properties.Settings.Default.DumpTimeStamps;
             }
         }
 
         private void ShowDebugLog()
         {
-            DebugLog.Left = this.Location.X;
-            DebugLog.Top = this.Location.Y + this.Height;
-            DebugLog.Show();
+            _debugLog.Left = this.Location.X;
+            _debugLog.Top = this.Location.Y + this.Height;
+            _debugLog.Show();
             menuViewDebugLog.Checked = true;
             this.Focus();
         }
 
         private void menuView_Popup(object sender, EventArgs e)
         {
-            menuViewDebugLog.Checked = DebugLog.Visible;
+            menuViewDebugLog.Checked = _debugLog.Visible;
         }
 
         private void menuItem1_Click(object sender, EventArgs e)

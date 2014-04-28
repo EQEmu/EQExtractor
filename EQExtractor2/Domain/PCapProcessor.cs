@@ -18,9 +18,9 @@ namespace EQExtractor2.Domain
         public EQStreamProcessor StreamProcessor { get; set; }
         public UserOptions Options { get; set; }
         public StreamWriter PacketDebugStream { get; set; }
-        public static int PacketsSeen { get; set; }
-        public static long BytesRead { get; set; }
-        public static long CaptureFileSize { get; set; }
+        public int PacketsSeen { get; set; }
+        public long BytesRead { get; set; }
+        public long CaptureFileSize { get; set; }
         public string ZoneName { get; set; }
         public Action<int> ReportProgress { get; private set; }
 
@@ -40,6 +40,7 @@ namespace EQExtractor2.Domain
 
         public void ProcessPCapFile(string capFile)
         {
+            if (string.IsNullOrEmpty(capFile)) return;
             OfflinePcapDevice device=null;
             try
             {
@@ -64,7 +65,7 @@ namespace EQExtractor2.Domain
             {
                 try
                 {
-                    PacketDebugStream = new StreamWriter(Options.EQPacketDebugFilename.Text);
+                    if(PacketDebugStream==null) PacketDebugStream = new StreamWriter(Options.EQPacketDebugFilename.Text);
                     StreamProcessor.Packets.SetDebugLogHandler(PacketDebugLogger);
                 }
                 catch

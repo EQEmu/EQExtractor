@@ -54,10 +54,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PacketDotNet">
-      <HintPath>..\PacketDotNet.dll</HintPath>
+      <HintPath>..\lib\PacketDotNet.dll</HintPath>
     </Reference>
     <Reference Include="SharpPcap">
-      <HintPath>..\SharpPcap.dll</HintPath>
+      <HintPath>..\lib\SharpPcap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,10 +70,11 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="zlib.net">
-      <HintPath>..\zlib.net.dll</HintPath>
+      <HintPath>..\lib\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildVersion.cs" />
     <Compile Include="Decoders\PatchTestApr242014.cs" />
     <Compile Include="Domain\PCapProcessor.cs" />
     <Compile Include="Domain\SqlGenerator.cs" />
@@ -141,6 +142,9 @@
     </Compile>
     <Compile Include="Domain\Utils.cs" />
     <Compile Include="Domain\ZoneOpCodeRegister.cs" />
+    <Content Include="Configs\ZoneLookups.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="EQExtractor2Form1.resx">
       <DependentUpon>EQExtractor2Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,75 +170,75 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\patch_Apr03-2014.conf">
+    <Content Include="Configs\patch_Apr03-2014.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_April15-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_April15-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Aug04-2011.conf">
+    </Content>
+    <Content Include="Configs\patch_Aug04-2011.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_August15-2012.conf">
+    </Content>
+    <Content Include="Configs\patch_August15-2012.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Dec10-2012.conf">
+    </Content>
+    <Content Include="Configs\patch_Dec10-2012.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Dec7-2010.conf">
+    </Content>
+    <Content Include="Configs\patch_Dec7-2010.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Feb11-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_Feb11-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Feb8-2011.conf">
+    </Content>
+    <Content Include="Configs\patch_Feb8-2011.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Jan16-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_Jan16-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_July13-2012.conf">
+    </Content>
+    <Content Include="Configs\patch_July13-2012.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_June25-2012.conf">
+    </Content>
+    <Content Include="Configs\patch_June25-2012.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Mar13-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_Mar13-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Mar15-2012.conf">
+    </Content>
+    <Content Include="Configs\patch_Mar15-2012.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_March15-2011.conf">
+    </Content>
+    <Content Include="Configs\patch_March15-2011.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_May12-2011.conf">
+    </Content>
+    <Content Include="Configs\patch_May12-2011.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Nov17-2011.conf">
+    </Content>
+    <Content Include="Configs\patch_Nov17-2011.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Sep01-2010.conf">
+    </Content>
+    <Content Include="Configs\patch_Sep01-2010.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_May12-2010.conf">
+    </Content>
+    <Content Include="Configs\patch_May12-2010.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_Sep22-2010.conf">
+    </Content>
+    <Content Include="Configs\patch_Sep22-2010.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_SoD.conf">
+    </Content>
+    <Content Include="Configs\patch_SoD.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_TestApr24-2014.conf">
+    </Content>
+    <Content Include="Configs\patch_TestApr24-2014.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_TestServer-Feb5-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_TestServer-Feb5-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\patch_TestServer-Jan16-2013.conf">
+    </Content>
+    <Content Include="Configs\patch_TestServer-Jan16-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -247,9 +251,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt" />
-    <Content Include="ZoneLookups.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

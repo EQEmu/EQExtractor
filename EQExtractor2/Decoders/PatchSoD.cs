@@ -767,7 +767,7 @@ namespace EQExtractor2.Decoders
 
         }
 
-        public void ExploreZoneEntry(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreZoneEntry(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             if (Direction != PacketDirection.ServerToClient)
                 return;
@@ -875,7 +875,7 @@ namespace EQExtractor2.Decoders
             AddExplorerSpawn(SpawnID, Name);
         }
 
-        public void ExploreHPUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreHPUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             UInt32 CurrentHP = Buffer.ReadUInt32();
             Int32 MaxHP = Buffer.ReadInt32();

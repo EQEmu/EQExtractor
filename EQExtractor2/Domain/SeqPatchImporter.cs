@@ -20,7 +20,7 @@ namespace EQExtractor2.Domain
                 {
                     var settings = new XmlReaderSettings();
                     settings.ValidationType = ValidationType.None;
-                    settings.ProhibitDtd = false;
+                    settings.DtdProcessing = DtdProcessing.Ignore;
                     settings.XmlResolver = new NullXmlResolver();
                     using (var reader = XmlReader.Create(fs, settings))
                     {

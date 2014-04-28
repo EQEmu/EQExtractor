@@ -250,7 +250,7 @@ namespace EQExtractor2.Decoders
             }
         }
 
-        public void ExploreMercenaryPurchaseWindow(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
+        public override void ExploreMercenaryPurchaseWindow(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
         {
             UInt32 TypeCount = Buffer.ReadUInt32();
 

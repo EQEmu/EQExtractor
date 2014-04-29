@@ -902,6 +902,8 @@ union
             foreach (byte[] Packet in AAPackets)
             {
                 ByteStream Buffer = new ByteStream(Packet);
+                List<uint> prereqskills = new List<uint>();
+                List<uint> prereqpoints = new List<uint>();
 
                 UInt32 AAID = Buffer.ReadUInt32();
                 byte Unknown004 = Buffer.ReadByte();
@@ -913,11 +915,14 @@ union
                 UInt32 Cost = Buffer.ReadUInt32();
                 UInt32 Seq = Buffer.ReadUInt32();
                 UInt32 CurrentLevel = Buffer.ReadUInt32();
-                UInt32 unknown037 = Buffer.ReadUInt32();
 
-                UInt32 PreReqSkill = Buffer.ReadUInt32();
-                UInt32 unknown045 = Buffer.ReadUInt32();
-                UInt32 PreReqMinPoint = Buffer.ReadUInt32();
+                UInt32 TotalPreReqSkills = Buffer.ReadUInt32();
+                for (int i = 0; i < TotalPreReqSkills; i++)
+                    prereqskills.Add(Buffer.ReadUInt32());
+
+                UInt32 TotalPreReqPoints = Buffer.ReadUInt32();
+                for (int i = 0; i < TotalPreReqPoints; i++)
+                    prereqpoints.Add(Buffer.ReadUInt32());
 
                 UInt32 Type = Buffer.ReadUInt32();
                 UInt32 SpellID = Buffer.ReadUInt32();
@@ -946,15 +951,15 @@ union
                 OutputFile.WriteLine(" Cost:\t\t" + Cost);
                 OutputFile.WriteLine(" Seq:\t\t" + Seq);
                 OutputFile.WriteLine(" CurrentLevel:\t" + CurrentLevel);
-                OutputFile.WriteLine(" Unknown037:\t" + unknown037);
-                OutputFile.WriteLine(" Unknown045:\t" + unknown045);
                 OutputFile.Write(" PreReqSkill (SEQs):\t");
-                OutputFile.Write("{0} ", PreReqSkill);
+                foreach (var pskill in prereqskills)
+                    OutputFile.Write("{0} ", pskill);
 
                 OutputFile.WriteLine("");
 
                 OutputFile.Write(" PreReqSkills MinPoints:\t");
-                OutputFile.Write("{0} ", PreReqMinPoint);
+                foreach (var ppoint in prereqpoints)
+                    OutputFile.Write("{0} ", ppoint);
 
                 OutputFile.WriteLine("");
 

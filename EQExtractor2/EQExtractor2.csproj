@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildVersion.cs" />
+    <Compile Include="Decoders\PatchApr242014.cs" />
     <Compile Include="Decoders\PatchTestApr242014.cs" />
     <Compile Include="Domain\PCapProcessor.cs" />
     <Compile Include="Domain\SqlGenerator.cs" />
@@ -239,6 +240,9 @@
     <Content Include="Configs\patch_TestServer-Jan16-2013.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Configs\patch_Apr24-2014.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

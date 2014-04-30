@@ -49,6 +49,7 @@ namespace EQExtractor2.Domain
             // Put our supported patch version decoders into the list.
 
             PatchList = new List<PatchSpecficDecoder>();
+            PatchList.Add(new PatchApr242014Decoder());
             PatchList.Add(new PatchTestApr242014Decoder());
 
             PatchList.Add(new PatchApril032014Decoder());

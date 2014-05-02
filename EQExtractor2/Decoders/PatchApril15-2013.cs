@@ -24,211 +24,212 @@ namespace EQExtractor2.Decoders
 
             foreach (byte[] SpawnPacket in SpawnPackets)
             {
-                ZoneEntryStruct NewSpawn = new ZoneEntryStruct();
+                ZoneEntryStruct newSpawn = new ZoneEntryStruct();
 
-                ByteStream Buffer = new ByteStream(SpawnPacket);
+                ByteStream buffer = new ByteStream(SpawnPacket);
 
-                NewSpawn.SpawnName = Buffer.ReadString(true);
+                newSpawn.SpawnName = buffer.ReadString(true);
 
-                NewSpawn.SpawnName = Utils.MakeCleanName(NewSpawn.SpawnName);
+                newSpawn.SpawnName = Utils.MakeCleanName(newSpawn.SpawnName);
 
-                NewSpawn.SpawnID = Buffer.ReadUInt32();
+                newSpawn.SpawnID = buffer.ReadUInt32();
 
-                NewSpawn.Level = Buffer.ReadByte();
+                newSpawn.Level = buffer.ReadByte();
 
-                float UnkSize = Buffer.ReadSingle();
+                float UnkSize = buffer.ReadSingle();
 
-                NewSpawn.IsNPC = Buffer.ReadByte();
+                newSpawn.IsNPC = buffer.ReadByte();
 
-                UInt32 Bitfield = Buffer.ReadUInt32();
+                UInt32 Bitfield = buffer.ReadUInt32();
 
-                NewSpawn.Gender = (Bitfield & 3);
+                newSpawn.Gender = (Bitfield & 3);
 
-                Byte OtherData = Buffer.ReadByte();
+                Byte OtherData = buffer.ReadByte();
 
-                Buffer.SkipBytes(8);    // Skip 8 unknown bytes
+                buffer.SkipBytes(8);    // Skip 8 unknown bytes
 
-                NewSpawn.DestructableString1 = "";
-                NewSpawn.DestructableString2 = "";
-                NewSpawn.DestructableString3 = "";
+                newSpawn.DestructableString1 = "";
+                newSpawn.DestructableString2 = "";
+                newSpawn.DestructableString3 = "";
 
-                if ((NewSpawn.IsNPC > 0) && ((OtherData & 1) > 0))
+                if ((newSpawn.IsNPC > 0) && ((OtherData & 1) > 0))
                 {
                     // Destructable Objects
-                    NewSpawn.DestructableString1 = Buffer.ReadString(false);
-                    NewSpawn.DestructableString2 = Buffer.ReadString(false);
-                    NewSpawn.DestructableString3 = Buffer.ReadString(false);
-                    Buffer.SkipBytes(53);
+                    newSpawn.DestructableString1 = buffer.ReadString(false);
+                    newSpawn.DestructableString2 = buffer.ReadString(false);
+                    newSpawn.DestructableString3 = buffer.ReadString(false);
+                    buffer.SkipBytes(53);
                 }
 
                 if ((OtherData & 4) > 0)
                 {
                     // Auras
-                    Buffer.ReadString(false);
-                    Buffer.ReadString(false);
-                    Buffer.SkipBytes(54);
+                    buffer.ReadString(false);
+                    buffer.ReadString(false);
+                    buffer.SkipBytes(54);
                 }
 
-                NewSpawn.PropCount = Buffer.ReadByte();
+                newSpawn.PropCount = buffer.ReadByte();
 
-                if (NewSpawn.PropCount > 0)
-                    NewSpawn.BodyType = Buffer.ReadUInt32();
+                if (newSpawn.PropCount > 0)
+                    newSpawn.BodyType = buffer.ReadUInt32();
                 else
-                    NewSpawn.BodyType = 0;
+                    newSpawn.BodyType = 0;
 
 
-                for (int j = 1; j < NewSpawn.PropCount; ++j)
-                    Buffer.SkipBytes(4);
+                for (int j = 1; j < newSpawn.PropCount; ++j)
+                    buffer.SkipBytes(4);
 
-                Buffer.SkipBytes(1);   // Skip HP %
-                NewSpawn.HairColor = Buffer.ReadByte();
-                NewSpawn.BeardColor = Buffer.ReadByte();
-                NewSpawn.EyeColor1 = Buffer.ReadByte();
-                NewSpawn.EyeColor2 = Buffer.ReadByte();
-                NewSpawn.HairStyle = Buffer.ReadByte();
-                NewSpawn.Beard = Buffer.ReadByte();
+                buffer.SkipBytes(1);   // Skip HP %
+                newSpawn.HairColor = buffer.ReadByte();
+                newSpawn.BeardColor = buffer.ReadByte();
+                newSpawn.EyeColor1 = buffer.ReadByte();
+                newSpawn.EyeColor2 = buffer.ReadByte();
+                newSpawn.HairStyle = buffer.ReadByte();
+                newSpawn.Beard = buffer.ReadByte();
 
-                NewSpawn.DrakkinHeritage = Buffer.ReadUInt32();
-                NewSpawn.DrakkinTattoo = Buffer.ReadUInt32();
-                NewSpawn.DrakkinDetails = Buffer.ReadUInt32();
+                newSpawn.DrakkinHeritage = buffer.ReadUInt32();
+                newSpawn.DrakkinTattoo = buffer.ReadUInt32();
+                newSpawn.DrakkinDetails = buffer.ReadUInt32();
 
-                NewSpawn.EquipChest2 = Buffer.ReadByte();
+                newSpawn.EquipChest2 = buffer.ReadByte();
 
-                bool UseWorn = (NewSpawn.EquipChest2 == 255);
+                bool UseWorn = (newSpawn.EquipChest2 == 255);
 
-                Buffer.SkipBytes(2);    // 2 Unknown bytes;
+                buffer.SkipBytes(2);    // 2 Unknown bytes;
 
-                NewSpawn.Helm = Buffer.ReadByte();
+                newSpawn.Helm = buffer.ReadByte();
 
-                NewSpawn.Size = Buffer.ReadSingle();
+                newSpawn.Size = buffer.ReadSingle();
 
-                NewSpawn.Face = Buffer.ReadByte();
+                newSpawn.Face = buffer.ReadByte();
 
-                NewSpawn.WalkSpeed = Buffer.ReadSingle();
+                newSpawn.WalkSpeed = buffer.ReadSingle();
 
-                NewSpawn.RunSpeed = Buffer.ReadSingle();
+                newSpawn.RunSpeed = buffer.ReadSingle();
 
-                NewSpawn.Race = Buffer.ReadUInt32();
+                newSpawn.Race = buffer.ReadUInt32();
 
-                Buffer.SkipBytes(1);   // Skip Holding
+                buffer.SkipBytes(1);   // Skip Holding
 
-                NewSpawn.Deity = Buffer.ReadUInt32();
+                newSpawn.Deity = buffer.ReadUInt32();
 
-                Buffer.SkipBytes(8);    // Skip GuildID and GuildRank
+                buffer.SkipBytes(8);    // Skip GuildID and GuildRank
 
-                NewSpawn.Class = Buffer.ReadByte();
+                newSpawn.Class = buffer.ReadByte();
 
-                Buffer.SkipBytes(4);     // Skip PVP, Standstate, Light, Flymode
+                buffer.SkipBytes(4);     // Skip PVP, Standstate, Light, Flymode
 
-                NewSpawn.LastName = Buffer.ReadString(true);
+                newSpawn.LastName = buffer.ReadString(true);
 
-                Buffer.SkipBytes(6);
+                buffer.SkipBytes(6);
 
-                NewSpawn.PetOwnerID = Buffer.ReadUInt32();
+                newSpawn.PetOwnerID = buffer.ReadUInt32();
 
-                Buffer.SkipBytes(25);
+                buffer.SkipBytes(25);
 
-                NewSpawn.MeleeTexture1 = 0;
-                NewSpawn.MeleeTexture2 = 0;
+                newSpawn.MeleeTexture1 = 0;
+                newSpawn.MeleeTexture2 = 0;
 
-                if ((NewSpawn.IsNPC == 0) || NPCType.IsPlayableRace(NewSpawn.Race))
+                if ((newSpawn.IsNPC == 0) || NPCType.IsPlayableRace(newSpawn.Race))
                 {
                     for (int ColourSlot = 0; ColourSlot < 9; ++ColourSlot)
-                        NewSpawn.SlotColour[ColourSlot] = Buffer.ReadUInt32();
+                        newSpawn.SlotColour[ColourSlot] = buffer.ReadUInt32();
 
                     for (int i = 0; i < 9; ++i)
                     {
-                        NewSpawn.Equipment[i] = Buffer.ReadUInt32();
+                        newSpawn.Equipment[i] = buffer.ReadUInt32();
 
-                        UInt32 Equip3 = Buffer.ReadUInt32();
+                        UInt32 Equip3 = buffer.ReadUInt32();
 
-                        UInt32 Equip2 = Buffer.ReadUInt32();
+                        UInt32 Equip2 = buffer.ReadUInt32();
 
-                        UInt32 Equip1 = Buffer.ReadUInt32();
+                        UInt32 Equip1 = buffer.ReadUInt32();
 
-                        UInt32 Equip0 = Buffer.ReadUInt32();
+                        UInt32 Equip0 = buffer.ReadUInt32();
                     }
 
-                    if (NewSpawn.Equipment[Constants.MATERIAL_CHEST] > 0)
+                    if (newSpawn.Equipment[Constants.MATERIAL_CHEST] > 0)
                     {
-                        NewSpawn.EquipChest2 = (byte)NewSpawn.Equipment[Constants.MATERIAL_CHEST];
+                        newSpawn.EquipChest2 = (byte)newSpawn.Equipment[Constants.MATERIAL_CHEST];
 
                     }
 
-                    NewSpawn.ArmorTintRed = (byte)((NewSpawn.SlotColour[Constants.MATERIAL_CHEST] >> 16) & 0xff);
+                    newSpawn.ArmorTintRed = (byte)((newSpawn.SlotColour[Constants.MATERIAL_CHEST] >> 16) & 0xff);
 
-                    NewSpawn.ArmorTintGreen = (byte)((NewSpawn.SlotColour[Constants.MATERIAL_CHEST] >> 8) & 0xff);
+                    newSpawn.ArmorTintGreen = (byte)((newSpawn.SlotColour[Constants.MATERIAL_CHEST] >> 8) & 0xff);
 
-                    NewSpawn.ArmorTintBlue = (byte)(NewSpawn.SlotColour[Constants.MATERIAL_CHEST] & 0xff);
+                    newSpawn.ArmorTintBlue = (byte)(newSpawn.SlotColour[Constants.MATERIAL_CHEST] & 0xff);
 
-                    if (NewSpawn.Equipment[Constants.MATERIAL_PRIMARY] > 0)
-                        NewSpawn.MeleeTexture1 = NewSpawn.Equipment[Constants.MATERIAL_PRIMARY];
+                    if (newSpawn.Equipment[Constants.MATERIAL_PRIMARY] > 0)
+                        newSpawn.MeleeTexture1 = newSpawn.Equipment[Constants.MATERIAL_PRIMARY];
 
-                    if (NewSpawn.Equipment[Constants.MATERIAL_SECONDARY] > 0)
-                        NewSpawn.MeleeTexture2 = NewSpawn.Equipment[Constants.MATERIAL_SECONDARY];
+                    if (newSpawn.Equipment[Constants.MATERIAL_SECONDARY] > 0)
+                        newSpawn.MeleeTexture2 = newSpawn.Equipment[Constants.MATERIAL_SECONDARY];
 
                     if (UseWorn)
-                        NewSpawn.Helm = (byte)NewSpawn.Equipment[Constants.MATERIAL_HEAD];
+                        newSpawn.Helm = (byte)newSpawn.Equipment[Constants.MATERIAL_HEAD];
                     else
-                        NewSpawn.Helm = 0;
+                        newSpawn.Helm = 0;
 
                 }
                 else
                 {
                     // Non playable race
 
-                    Buffer.SkipBytes(20);
+                    buffer.SkipBytes(20);
 
-                    NewSpawn.MeleeTexture1 = Buffer.ReadUInt32();
-                    Buffer.SkipBytes(16);
-                    NewSpawn.MeleeTexture2 = Buffer.ReadUInt32();
-                    Buffer.SkipBytes(16);
+                    newSpawn.MeleeTexture1 = buffer.ReadUInt32();
+                    buffer.SkipBytes(16);
+                    newSpawn.MeleeTexture2 = buffer.ReadUInt32();
+                    buffer.SkipBytes(16);
                 }
 
-                if (NewSpawn.EquipChest2 == 255)
-                    NewSpawn.EquipChest2 = 0;
+                if (newSpawn.EquipChest2 == 255)
+                    newSpawn.EquipChest2 = 0;
 
-                if (NewSpawn.Helm == 255)
-                    NewSpawn.Helm = 0;
+                if (newSpawn.Helm == 255)
+                    newSpawn.Helm = 0;
 
-                UInt32 Position1 = Buffer.ReadUInt32();
+                UInt32 Position1 = buffer.ReadUInt32();
 
-                UInt32 Position2 = Buffer.ReadUInt32();
+                UInt32 Position2 = buffer.ReadUInt32();
 
-                UInt32 Position3 = Buffer.ReadUInt32();
+                UInt32 Position3 = buffer.ReadUInt32();
 
-                UInt32 Position4 = Buffer.ReadUInt32();
+                UInt32 Position4 = buffer.ReadUInt32();
 
-                UInt32 Position5 = Buffer.ReadUInt32();
+                UInt32 Position5 = buffer.ReadUInt32();
 
-                NewSpawn.YPos = Utils.EQ19ToFloat((Int32)((Position1 >> 12) & 0x7FFFF));
+                newSpawn.YPos = Utils.EQ19ToFloat((Int32)((Position1 >> 12) & 0x7FFFF));
 
-                NewSpawn.ZPos = Utils.EQ19ToFloat((Int32)(Position2) & 0x7FFFF);
+                newSpawn.ZPos = Utils.EQ19ToFloat((Int32)(Position2) & 0x7FFFF);
 
-                NewSpawn.XPos = Utils.EQ19ToFloat((Int32)(Position4 >> 13) & 0x7FFFF);
+                newSpawn.XPos = Utils.EQ19ToFloat((Int32)(Position4 >> 13) & 0x7FFFF);
 
-                NewSpawn.Heading = Utils.EQ19ToFloat((Int32)(Position3 >> 13) & 0xFFF);
+                newSpawn.Heading = Utils.EQ19ToFloat((Int32)(Position3 >> 13) & 0xFFF);
 
                 if ((OtherData & 16) > 0)
                 {
-                    NewSpawn.Title = Buffer.ReadString(false);
+                    newSpawn.Title = buffer.ReadString(false);
                 }
 
                 if ((OtherData & 32) > 0)
                 {
-                    NewSpawn.Suffix = Buffer.ReadString(false);
+                    newSpawn.Suffix = buffer.ReadString(false);
                 }
 
                 // unknowns
-                Buffer.SkipBytes(8);
+                buffer.SkipBytes(8);
 
-                NewSpawn.IsMercenary = Buffer.ReadByte();
+                newSpawn.IsMercenary = buffer.ReadByte();
 
-                Buffer.SkipBytes(54);
+                buffer.SkipBytes(54);
+                var expectedLength = buffer.Length();
+                var currentPoint = buffer.GetPosition();
+                Debug.Assert(currentPoint == expectedLength, "Length mismatch while parsing zone spawns");
 
-                Debug.Assert(Buffer.GetPosition() == Buffer.Length(), "Length mismatch while parsing zone spawns");
-
-                ZoneSpawns.Add(NewSpawn);
+                ZoneSpawns.Add(newSpawn);
             }
             return ZoneSpawns;
         }

@@ -46,7 +46,10 @@ namespace EQExtractor2.Decoders
                 string FirstName = buffer.ReadString(false);
 
                 outputStream.WriteLine("Name = {0}", FirstName);
-
+                if (FirstName == "Emperor_Crush00")
+                {
+                    outputStream.WriteLine("Sample marker");
+                }
                 UInt32 SpawnID = buffer.ReadUInt32();
 
                 outputStream.WriteLine("SpawnID = {0}", SpawnID);
@@ -131,7 +134,7 @@ namespace EQExtractor2.Decoders
                 outputStream.WriteLine("Size: {0}, Face: {1}, Walkspeed: {2}, RunSpeed: {3}, Race: {4}", Size, Face,
                     WalkSpeed, RunSpeed, Race);
 
-                //MooftaL above here is correct, below is incorrect time to get from seq...
+                //vsabL above here is correct, below is incorrect time to get from seq...
                 outputStream.WriteLine("Holding = {0}", buffer.ReadByte());
                 outputStream.WriteLine("Deity = {0}", buffer.ReadUInt32());
                 outputStream.WriteLine("GuildID = {0}", buffer.ReadUInt32());
@@ -179,7 +182,7 @@ namespace EQExtractor2.Decoders
                 }
                 else
                 {
-                    //Moofta at this point this section is 100% untested
+                    //vsab at this point this section is 100% untested
 
                     // Non playable race
                     // Melee Texture 1 is 20 bytes in
@@ -628,7 +631,7 @@ union
                 buffer.GetPosition(), buffer.ReadSingle(), buffer.ReadSingle(), buffer.ReadSingle(),
                 buffer.ReadSingle());
 
-            //Moofta all above here is verified
+            //vsab all above here is verified
             outputStream.WriteLine("{0, -5}: Unknown {1:X}", buffer.GetPosition(), buffer.ReadByte());
             outputStream.WriteLine("{0, -5}: Unknown {1:X}", buffer.GetPosition(), buffer.ReadByte());
             outputStream.WriteLine("{0, -5}: Unknown {1:X}", buffer.GetPosition(), buffer.ReadByte());

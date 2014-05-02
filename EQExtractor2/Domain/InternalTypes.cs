@@ -120,7 +120,7 @@ namespace EQExtractor2.Domain
         public UInt32 DrakkinTattoo;
         public UInt32 DrakkinDetails;
         public UInt32 Deity;
-        public byte Class;
+        public UInt32 Class; //vsab looks like this changed from byt to uint32? in 24 Apr 2014 patch
         public byte EquipChest2;
         public byte Helm;
         public string LastName;
@@ -222,7 +222,7 @@ namespace EQExtractor2.Domain
 
         public UInt32 FindNPCType(string Name, Byte Level, uint Gender, float Size, Byte Face, float WalkSpeed, float RunSpeed, UInt32 Race,
                        UInt32 BodyType, Byte HairColor, Byte BeardColor, Byte EyeColor1, Byte EyeColor2, Byte HairStyle, Byte Beard,
-                       UInt32 DrakkinHeritage, UInt32 DrakkinTattoo, UInt32 DrakkinDetails, UInt32 Deity, Byte Class, Byte EquipChest2,
+                       UInt32 DrakkinHeritage, UInt32 DrakkinTattoo, UInt32 DrakkinDetails, UInt32 Deity, UInt32 Class, Byte EquipChest2,
                        Byte Helm, string LastName)
         {
             foreach (NPCType n in _NPCTypeList)
@@ -437,7 +437,7 @@ namespace EQExtractor2.Domain
     {
         public NPCType(UInt32 DBID, string Name, Byte Level, uint Gender, float Size, Byte Face, float WalkSpeed, float RunSpeed, UInt32 Race,
                        UInt32 BodyType, Byte HairColor, Byte BeardColor, Byte EyeColor1, Byte EyeColor2, Byte HairStyle, Byte Beard,
-                       UInt32 DrakkinHeritage, UInt32 DrakkinTattoo, UInt32 DrakkinDetails, UInt32 Deity, Byte Class, Byte EquipChest2,
+                       UInt32 DrakkinHeritage, UInt32 DrakkinTattoo, UInt32 DrakkinDetails, UInt32 Deity, UInt32 Class, Byte EquipChest2,
                        Byte Helm, string LastName, bool Findable, UInt32 MeleeTexture1, UInt32 MeleeTexture2,
                        UInt32 ArmorTintRed, UInt32 ArmorTintGreen, UInt32 ArmorTintBlue, UInt32[] SlotColour)
         {
@@ -522,7 +522,7 @@ namespace EQExtractor2.Domain
         public UInt32 DrakkinTattoo = 0;
         public UInt32 DrakkinDetails = 0;
         public UInt32 Deity = 0;
-        public Byte Class = 0;
+        public UInt32 Class = 0;
         public Byte EquipChest2 = 0;
         public Byte Helm = 0;
         public string LastName = "";

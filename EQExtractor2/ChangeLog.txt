@@ -1,13 +1,13 @@
 ﻿EQExtractor2 Changelog. All changes since the 1.0 release.
-==?==
-Moofta: Adding support for latest EQ Live client. A lot of the structures have changed in the past year.
+==02/05/2014==
+vsab: Spawns now store the class as a Uint32 NOT a byte anymore. Therefore, I had to change a few structs and methods that *may* break backward compatability. Corrected XYZ and heading in OP_ZoneEntry.
 
 ==04/25/2014==
-Moofta: Refactored codebase moving processing etc out of the GUI and into other classes, moving files into their own namespaces and also making some of the code more idiomatic to C#, and setting it up for mocking so unit testing can be used (to speed up development).
-Moofta: Tidied up decoders a bit. There's so many of them now inheritance was getting a bit difficult to get your head round.
-Moofta: Most long running processing now done using background workers, out of UI thread.
-Moofta: Ctrl+I will import a show EQ zoneopcodes.xml file and create .conf patch file for use here.
-Moofta: Zone lookups (name to number and vice versa) are now loaded from an XML file - ZoneLookups.xml. Also updated for post SoD zones
+vsab: Refactored codebase moving processing etc out of the GUI and into other classes, moving files into their own namespaces and also making some of the code more idiomatic to C#, and setting it up for mocking so unit testing can be used (to speed up development).
+vsab: Tidied up decoders a bit. There's so many of them now inheritance was getting a bit difficult to get your head round.
+vsab: Most long running processing now done using background workers, out of UI thread.
+vsab: Ctrl+I will import a show EQ zoneopcodes.xml file and create .conf patch file for use here.
+vsab: Zone lookups (name to number and vice versa) are now loaded from an XML file - ZoneLookups.xml. Also updated for post SoD zones
 
 ==04/25/2013==
 Derision: Added SQL generation support to current Live client decoder.

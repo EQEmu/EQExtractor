@@ -202,9 +202,9 @@ namespace EQExtractor2.Decoders
                 outputStream.WriteLine("Position5 untreated {0}", position5);
 
                 var xPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); //vsab possible
-                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FF); //vsab possible
+                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); //vsab possible
                 var zPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF);  //vsab possible
-                var heading = Utils.EQ19ToFloat((Int32)(position5) & 0x1FF); //vsab possible
+                var heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF); //vsab possible
 
                 outputStream.WriteLine("(X,Y,Z) = {0}, {1}, {2}, Heading = {3}", xPos, yPos, zPos, heading);
 
@@ -383,9 +383,9 @@ namespace EQExtractor2.Decoders
                 var position5 = buffer.ReadUInt32();
 
                 newSpawn.XPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); 
-                newSpawn.YPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FF); 
+                newSpawn.YPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); 
                 newSpawn.ZPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF); 
-                newSpawn.Heading = Utils.EQ19ToFloat((Int32)(position5) & 0x1FF);
+                newSpawn.Heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF);
 
                 if ((otherData & 16) > 1)
                 {

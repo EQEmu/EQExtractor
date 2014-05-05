@@ -372,14 +372,14 @@ namespace EQExtractor2.Domain
                         Spawn.ArmorTintBlue = 0;
                     }
 
-                    string NPCTypesQuery = "INSERT INTO npc_types(`id`, `name`, `lastname`, `level`, `gender`, `size`, `runspeed`,`race`, `class`, `bodytype`, `hp`, `texture`, `helmtexture`, `face`, `luclin_hairstyle`, `luclin_haircolor`, `luclin_eyecolor`, `luclin_eyecolor2`,`luclin_beard`, `luclin_beardcolor`, `findable`, `version`, `d_meele_texture1`, `d_meele_texture2`, `armortint_red`, `armortint_green`, `armortint_blue`, `drakkin_heritage`, `drakkin_tattoo`, `drakkin_details`) VALUES(";
+                    string NPCTypesQuery = "INSERT INTO npc_types(`id`, `name`, `lastname`, `level`, `gender`, `size`, `runspeed`,`race`, `class`, `bodytype`, `hp`, `texture`, `helmtexture`, `face`, `luclin_hairstyle`, `luclin_haircolor`, `luclin_eyecolor`, `luclin_eyecolor2`,`luclin_beard`, `luclin_beardcolor`, `findable`, `version`, `d_meele_texture1`, `d_meele_texture2`, `armortint_red`, `armortint_green`, `armortint_blue`, `drakkin_heritage`, `drakkin_tattoo`, `drakkin_details`,`special_abilities`,`slow_mitigation`) VALUES(";
 
                     NPCTypesQuery += "@StartingNPCTypeID + " + ExistingDBID + ", '" + Spawn.SpawnName + "', " + "'" + Spawn.LastName + "', " + Spawn.Level + ", " + Spawn.Gender + ", " + Spawn.Size + ", ";
                     NPCTypesQuery += Spawn.RunSpeed + ", " + Spawn.Race + ", " + Spawn.Class + ", " + Spawn.BodyType + ", " + Spawn.Level * (10 + Spawn.Level) + ", ";
                     NPCTypesQuery += Spawn.EquipChest2 + ", " + Spawn.Helm + ", " + Spawn.Face + ", " + Spawn.HairStyle + ", " + Spawn.HairColor + ", " + Spawn.EyeColor1 + ", ";
                     NPCTypesQuery += Spawn.EyeColor2 + ", " + Spawn.Beard + ", " + Spawn.BeardColor + ", " + (Spawn.Findable ? 1 : 0) + ", " + SpawnVersion + ", ";
                     NPCTypesQuery += Spawn.MeleeTexture1 + ", " + Spawn.MeleeTexture2 + ", " + Spawn.ArmorTintRed + ", " + Spawn.ArmorTintGreen + ", " + Spawn.ArmorTintBlue + ", ";
-                    NPCTypesQuery += Spawn.DrakkinHeritage + ", " + Spawn.DrakkinTattoo + ", " + Spawn.DrakkinDetails + ");";
+                    NPCTypesQuery += Spawn.DrakkinHeritage + ", " + Spawn.DrakkinTattoo + ", " + Spawn.DrakkinDetails + ",'',0);";
 
                     if (GenerateSpawns)
                         SQLOut(NPCTypesQuery);

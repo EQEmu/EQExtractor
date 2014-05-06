@@ -246,7 +246,7 @@ namespace EQExtractor2.Decoders
 
             PosUpdate = Decode_OP_NPCMoveUpdate(Buffer.Buffer);
 
-            OutputStream.WriteLine("SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
+            OutputStream.WriteLine("OP_NPCMoveUpdate SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
         }
 
         public override void ExploreMobUpdate(StreamWriter OutputStream, ByteStream Buffer, PacketDirection Direction)
@@ -255,7 +255,7 @@ namespace EQExtractor2.Decoders
 
             PosUpdate = Decode_OP_MobUpdate(Buffer.Buffer);
 
-            OutputStream.WriteLine("SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
+            OutputStream.WriteLine("OP_MobUpdate SpawnID: {0}, X = {1}, Y = {2}, Z = {3}, Heading = {4}", PosUpdate.SpawnID, PosUpdate.p.x, PosUpdate.p.y, PosUpdate.p.z, PosUpdate.p.heading);
         }
 
         public override void ExploreZoneEntry(StreamWriter outputStream, ByteStream buffer, PacketDirection direction)

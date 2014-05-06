@@ -22,6 +22,10 @@ namespace EQExtractor2.Decoders
         {
             //OpManager.RegisterExplorer("OP_PlayerProfile", ExplorePlayerProfile);
             OpManager.RegisterExplorer("OP_ZoneEntry", ExploreZoneEntry);
+            OpManager.RegisterExplorer("OP_NPCMoveUpdate", ExploreNPCMoveUpdate);
+            OpManager.RegisterExplorer("OP_MobUpdate", ExploreMobUpdate);
+            //OpManager.RegisterExplorer("OP_ClientUpdate", ExploreClientUpdate);
+            OpManager.RegisterExplorer("OP_CharInventory", ExploreInventory);
         }
 
         public override void ExploreZoneEntry(StreamWriter outputStream, ByteStream buffer, PacketDirection direction)

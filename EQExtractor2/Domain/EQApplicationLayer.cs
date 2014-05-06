@@ -14,6 +14,8 @@ using EQExtractor2.Decoders;
 
 namespace EQExtractor2.Domain
 {
+    using System.Runtime.Remoting.Messaging;
+
     public delegate void LogHandler(string message);
 
     class EQStreamProcessor
@@ -760,18 +762,32 @@ namespace EQExtractor2.Domain
             }
         }
 
-        static bool IsGroundSpawn(UInt32 Type)
+        static bool IsGroundSpawn(UInt32 type)
         {
-            if ((Type == 1) || (Type == 8))
-                return true;
-
-            return false;
+            //vsab Korascian warrens has these types
+            switch (type)
+            {
+                case 1:
+                case 8:
+                case 12:
+                case 29:
+                    return true;
+                default:
+                    return false;
+            }
         }
+
 
         public static UInt32 ObjectNameToType(string Name)
         {
             switch (Name)
             {
+                case "IT11208_ACTORDEF":
+                    return 8;
+                case "IT537_ACTORDEF":
+                    return 29;
+                case "IT11207_ACTORDEF":
+                    return 12;
                 case "IT10511_ACTORDEF":
                     return 3;
                 case "IT10512_ACTODEF":

@@ -415,12 +415,6 @@ namespace EQExtractor2.Decoders
 
                 zoneSpawns.Add(newSpawn);
             }
-            var items = zoneSpawns.Where(x => x.SpawnName.StartsWith("Guard")).OrderBy(x => x.SpawnID);
-            foreach (var item in items)
-            {
-                var x = item.SpawnID;
-
-            }
             return zoneSpawns;
         }
 

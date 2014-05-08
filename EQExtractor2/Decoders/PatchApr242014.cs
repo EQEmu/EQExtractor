@@ -6,6 +6,7 @@ namespace EQExtractor2.Decoders
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     class PatchApr242014Decoder : PatchApril032014Decoder
     {
@@ -54,7 +55,7 @@ namespace EQExtractor2.Decoders
 
                 var bitfield = buffer.ReadUInt32();
                 outputStream.WriteLine("Name: {0}, Bitfield: {1}", firstName, Convert.ToString(bitfield, 2));
-
+                outputStream.WriteLine("Gender: {0}", (bitfield & 3));
                 var otherData = buffer.ReadByte();
 
                 outputStream.WriteLine("OtherData = {0}", otherData);
@@ -257,6 +258,7 @@ namespace EQExtractor2.Decoders
                 buffer.SkipBytes(4);
                 newSpawn.IsNPC = buffer.ReadByte();
                 var bitfield=buffer.ReadUInt32();
+                newSpawn.Gender = (bitfield & 3);
                 var otherData = buffer.ReadByte();
                 buffer.SkipBytes(8);
 
@@ -412,6 +414,12 @@ namespace EQExtractor2.Decoders
                 Debug.Assert(currentPoint == expectedLength, "Length mismatch while parsing zone spawns");
 
                 zoneSpawns.Add(newSpawn);
+            }
+            var items = zoneSpawns.Where(x => x.SpawnName.StartsWith("Guard")).OrderBy(x => x.SpawnID);
+            foreach (var item in items)
+            {
+                var x = item.SpawnID;
+
             }
             return zoneSpawns;
         }

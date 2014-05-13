@@ -35,33 +35,26 @@ namespace EQExtractor2.Decoders
                 return;
             try
             {
-                var firstName = buffer.ReadString(false);
-
+                var firstName = buffer.ReadString(false); //verified
                 outputStream.WriteLine("Name = {0}", firstName);
-
-                var spawnId = buffer.ReadUInt32();
-
+                File.WriteAllBytes(string.Format("{0}.bin",Utils.MakeCleanName(firstName)),buffer.Buffer);
+                var spawnId = buffer.ReadUInt32();//verified
                 outputStream.WriteLine("SpawnID = {0}", spawnId);
-
-                var level = buffer.ReadByte();
-
+                var level = buffer.ReadByte();//verified
                 outputStream.WriteLine("Level = {0}", level);
-
                 buffer.SkipBytes(4);
-
-                var isNpc = buffer.ReadByte();
-
+                var isNpc = buffer.ReadByte();//verified
                 outputStream.WriteLine("IsNPC = {0}", isNpc);
-
                 var bitfield = buffer.ReadUInt32();
                 outputStream.WriteLine("Name: {0}, Bitfield: {1}", firstName, Convert.ToString(bitfield, 2));
-                outputStream.WriteLine("Gender: {0}", (bitfield & 3));
+                outputStream.WriteLine("Gender: {0}", (bitfield & 3));//verified
                 var otherData = buffer.ReadByte();
 
                 outputStream.WriteLine("OtherData = {0}", otherData);
 
                 buffer.SkipBytes(8);
 
+                // otherdata stuff is unverified
                 if ((otherData & 1) > 0)
                 {
                     outputStream.WriteLine("OD:     {0}", buffer.ReadString(false));
@@ -77,13 +70,14 @@ namespace EQExtractor2.Decoders
                     buffer.SkipBytes(54);
                 }
 
+                //properties unverified in the sense that I don't know if they represent anything useful other than bodytype
                 var properties = buffer.ReadByte();
                 outputStream.WriteLine("Properties = {0}, Offset now {1}", properties, buffer.GetPosition());
 
                 UInt32 bodyType = 0;
 
                 if (properties > 0)
-                    bodyType = buffer.ReadUInt32();
+                    bodyType = buffer.ReadUInt32(); //verified
 
                 outputStream.WriteLine("Bodytype = {0}", bodyType);
 
@@ -93,50 +87,49 @@ namespace EQExtractor2.Decoders
                 for (var i = 1; i < properties; ++i)
                     outputStream.WriteLine("   Prop: {0}", buffer.ReadUInt32());
 
-                outputStream.WriteLine("Position is now {0}", buffer.GetPosition());
-
-                var hp = buffer.ReadByte();
-                var hairColor = buffer.ReadByte();
-                var beardColor = buffer.ReadByte();
-                var eye1 = buffer.ReadByte();
-                var eye2 = buffer.ReadByte();
-                var hairStyle = buffer.ReadByte();
+                var hp = buffer.ReadByte(); //not 100% sure this is HP. I got 47% on my character when her hp at 100%. Poss mana?
+                //Below here is verified
                 var beardStyle = buffer.ReadByte();
                 outputStream.WriteLine("Beardstyle is {0}", beardStyle);
-
-                buffer.SkipBytes(12); // Drakkin stuff
-                var equipChest2 = buffer.ReadByte();
+                var hairColor = buffer.ReadByte();
+                outputStream.WriteLine("Hair color is {0}", hairColor);
+                var eye1 = buffer.ReadByte();
+                outputStream.WriteLine("Eye1 is {0}", eye1);
+                var eye2 = buffer.ReadByte();
+                outputStream.WriteLine("Eye2 is {0}", eye2);
+                var hairStyle = buffer.ReadByte();
+                outputStream.WriteLine("Hair style is {0}", hairStyle);
+                var beardColor = buffer.ReadByte();
+                outputStream.WriteLine("Beard color is {0}", beardColor);
+  
+                // vsab: take note! drakkin shit is now uint32 not bytes! why? who knows?
+                outputStream.WriteLine("Drakkin Heritage is {0}", buffer.ReadUInt32());
+                outputStream.WriteLine("Drakkin Tattoo is {0}", buffer.ReadUInt32());
+                outputStream.WriteLine("Drakkin Details is {0}", buffer.ReadUInt32());
+                var equipChest2 = buffer.ReadByte(); //AKA texture
+                var useWorn = equipChest2 == 255;
                 buffer.SkipBytes(2);
-                var helm = buffer.ReadByte();
-
-
-                var size = buffer.ReadSingle();
-
-                var face = buffer.ReadByte();
-
-                var walkSpeed = buffer.ReadSingle();
-
-                var runSpeed = buffer.ReadSingle();
-
-                var race = buffer.ReadUInt32();
-
-                outputStream.WriteLine("Size: {0}, Face: {1}, Walkspeed: {2}, RunSpeed: {3}, Race: {4}", size, face,
-                    walkSpeed, runSpeed, race);
-
+                var helm = buffer.ReadByte(); //unverified
+                var size = buffer.ReadSingle(); //verified
+                var face = buffer.ReadByte(); // Probably correct
+                var walkSpeed = buffer.ReadSingle();   //dunno valid ranges for this so this is anyone's guess :P 
+                var runSpeed = buffer.ReadSingle(); // verified
+                var race = buffer.ReadUInt32(); //verified
+                //dunno about bits below here
                 outputStream.WriteLine("Holding = {0}", buffer.ReadByte());
-                outputStream.WriteLine("Deity = {0}", buffer.ReadUInt32());
-                outputStream.WriteLine("GuildID = {0}", buffer.ReadUInt32());
-                outputStream.WriteLine("Guildstatus = {0}", buffer.ReadUInt32());
-                outputStream.WriteLine("Class = {0}", buffer.ReadUInt32());
-
-                buffer.SkipBytes(1); //PVP
-                outputStream.WriteLine("State = {0}", buffer.ReadByte());
-                outputStream.WriteLine("Light = {0}", buffer.ReadByte());
-                buffer.SkipBytes(1); //Flymode!
-
-                outputStream.WriteLine("LastName = {0}", buffer.ReadString(false));
+                outputStream.WriteLine("Deity = {0}", buffer.ReadUInt32()); //verified
+                outputStream.WriteLine("GuildID = {0}", buffer.ReadUInt32());//unverified
+                outputStream.WriteLine("Guildstatus = {0}", buffer.ReadUInt32());//unverified
+                outputStream.WriteLine("Class = {0}", buffer.ReadUInt32());//verified
+                outputStream.WriteLine("Size: {0}, Face: {1}, Walkspeed: {2}, RunSpeed: {3}, Race: {4}", size, face,walkSpeed, runSpeed, race);
+                buffer.SkipBytes(1); //PVP-//unverified
+                outputStream.WriteLine("State = {0}", buffer.ReadByte());//unverified
+                outputStream.WriteLine("Light = {0}", buffer.ReadByte());//unverified
+                buffer.SkipBytes(1); //Flymode! //unverified
+                var lastName = buffer.ReadString(false);
+                outputStream.WriteLine("LastName = {0}", lastName); //verified
                 buffer.SkipBytes(6);
-                outputStream.WriteLine("PetOwnerId = {0}", buffer.ReadUInt32());
+                outputStream.WriteLine("PetOwnerId = {0}", buffer.ReadUInt32());//unverified
                 buffer.SkipBytes(isNpc == 1 ? 37 : 25);
 
                 if (isNpc == 0 || NPCType.IsPlayableRace(race))
@@ -146,8 +139,7 @@ namespace EQExtractor2.Decoders
                          outputStream.WriteLine("Color {0} is {1}", ColourSlot, buffer.ReadUInt32());
                     var diff = buffer.GetPosition() - posn;
                     Debug.Assert(diff==36, "Colour slots wrong!");
-                    
-                    //buffer.SkipBytes(36); //vsab this is correct!
+                    //Player equip verified
 
                     for (var i = 0; i < 9; ++i)
                     {
@@ -192,6 +184,7 @@ namespace EQExtractor2.Decoders
                     buffer.SkipBytes(16);
                 }
 
+                //positions verified!
                 outputStream.WriteLine("Position starts at offset {0}", buffer.GetPosition());
 
                 var position1 = buffer.ReadUInt32();
@@ -199,29 +192,29 @@ namespace EQExtractor2.Decoders
                 var position2 = buffer.ReadUInt32();
                 outputStream.WriteLine("Position2 untreated {0}", position2);
                 var position3 = buffer.ReadUInt32();
-                outputStream.WriteLine("Position3 untreated {0}", position3);  //vsab possibly Z
+                outputStream.WriteLine("Position3 untreated {0}", position3);  
                 var position4 = buffer.ReadUInt32();
                 outputStream.WriteLine("Position4 untreated {0}", position4);
 
                 var position5 = buffer.ReadUInt32(); 
                 outputStream.WriteLine("Position5 untreated {0}", position5);
 
-                var xPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); //vsab possible
-                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); //vsab possible
-                var zPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF);  //vsab possible
-                var heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF); //vsab possible
+                var xPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); 
+                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); 
+                var zPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF);  
+                var heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF); 
 
                 outputStream.WriteLine("(X,Y,Z) = {0}, {1}, {2}, Heading = {3}", xPos, yPos, zPos, heading);
 
                 if ((otherData & 16) > 1)
-                    outputStream.WriteLine("Title: {0}", buffer.ReadString(false));
+                    outputStream.WriteLine("Title: {0}", buffer.ReadString(false)); //verified
 
                 if ((otherData & 32) > 1)
-                    outputStream.WriteLine("Suffix: {0}", buffer.ReadString(false));
+                    outputStream.WriteLine("Suffix: {0}", buffer.ReadString(false)); //verified
 
                 buffer.SkipBytes(8);
 
-                var isMerc = buffer.ReadByte();
+                var isMerc = buffer.ReadByte(); //verified
 
                 outputStream.WriteLine("IsMerc: {0}", isMerc);
 
@@ -230,7 +223,6 @@ namespace EQExtractor2.Decoders
                 var currentPoint = buffer.GetPosition();
                 outputStream.WriteLine("Buffer Length: {0}, Current Position: {1}",expectedLength,currentPoint);
                 Debug.Assert(currentPoint == expectedLength, "Length mismatch while parsing zone spawns");
-
                 outputStream.WriteLine("");
             }
             catch (Exception)

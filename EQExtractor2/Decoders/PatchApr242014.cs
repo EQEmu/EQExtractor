@@ -37,7 +37,7 @@ namespace EQExtractor2.Decoders
             {
                 var firstName = buffer.ReadString(false); //verified
                 outputStream.WriteLine("Name = {0}", firstName);
-                File.WriteAllBytes(string.Format("{0}.bin",Utils.MakeCleanName(firstName)),buffer.Buffer);
+                //File.WriteAllBytes(string.Format("{0}.bin",Utils.MakeCleanName(firstName)),buffer.Buffer);
                 var spawnId = buffer.ReadUInt32();//verified
                 outputStream.WriteLine("SpawnID = {0}", spawnId);
                 var level = buffer.ReadByte();//verified
@@ -49,11 +49,8 @@ namespace EQExtractor2.Decoders
                 outputStream.WriteLine("Name: {0}, Bitfield: {1}", firstName, Convert.ToString(bitfield, 2));
                 outputStream.WriteLine("Gender: {0}", (bitfield & 3));//verified
                 var otherData = buffer.ReadByte();
-
                 outputStream.WriteLine("OtherData = {0}", otherData);
-
                 buffer.SkipBytes(8);
-
                 // otherdata stuff is unverified
                 if ((otherData & 1) > 0)
                 {
@@ -102,10 +99,23 @@ namespace EQExtractor2.Decoders
                 var beardColor = buffer.ReadByte();
                 outputStream.WriteLine("Beard color is {0}", beardColor);
   
-                // vsab: take note! drakkin shit is now uint32 not bytes! why? who knows?
-                outputStream.WriteLine("Drakkin Heritage is {0}", buffer.ReadUInt32());
-                outputStream.WriteLine("Drakkin Tattoo is {0}", buffer.ReadUInt32());
-                outputStream.WriteLine("Drakkin Details is {0}", buffer.ReadUInt32());
+                var drakkinHeritage=buffer.ReadUInt32();
+                outputStream.WriteLine("Drakkin Heritage is {0}", drakkinHeritage);
+				// an_unemployed_mercenary's and some newer npc's seem to have this set to 255, then have invalid numbers for the next ones
+				if(drakkinHeritage==255)
+				{
+					outputStream.WriteLine("We should set drakkinHeritage to 0 as well as the other Drakkin stuff.");
+					outputStream.WriteLine("Drakkin Heritage is 0");
+					outputStream.WriteLine("Drakkin Tattoo is 0");
+					outputStream.WriteLine("Drakkin Details is 0");
+					buffer.SkipBytes(8);
+				}
+				else
+				{
+				    outputStream.WriteLine("Drakkin Tattoo is {0}", buffer.ReadUInt32());
+					outputStream.WriteLine("Drakkin Details is {0}", buffer.ReadUInt32());
+				}
+
                 var equipChest2 = buffer.ReadByte(); //AKA texture
                 var useWorn = equipChest2 == 255;
                 buffer.SkipBytes(2);
@@ -280,22 +290,33 @@ namespace EQExtractor2.Decoders
                             buffer.SkipBytes(4);
 
                 buffer.SkipBytes(1);   // Skip HP %
+                newSpawn.Beard = buffer.ReadByte(); //Beardstyle
                 newSpawn.HairColor = buffer.ReadByte();
-                newSpawn.BeardColor = buffer.ReadByte();
                 newSpawn.EyeColor1 = buffer.ReadByte();
                 newSpawn.EyeColor2 = buffer.ReadByte();
                 newSpawn.HairStyle = buffer.ReadByte();
-                newSpawn.Beard = buffer.ReadByte(); //Beardstyle
+                newSpawn.BeardColor = buffer.ReadByte();
+                
 
                 newSpawn.DrakkinHeritage = buffer.ReadUInt32();
-                newSpawn.DrakkinTattoo = buffer.ReadUInt32();
-                newSpawn.DrakkinDetails = buffer.ReadUInt32();
-
+                // vsab: an_unemployed_mercenary's and some newer npc's seem to have newSpawn.DrakkinHeritage set to 255, then have invalid numbers for the next ones
+                if (newSpawn.DrakkinHeritage == 255)
+                {
+                    newSpawn.DrakkinHeritage = 0;
+                    newSpawn.DrakkinTattoo = 0;
+                    newSpawn.DrakkinDetails = 0;    
+                    buffer.SkipBytes(8);
+                }
+                else
+                {
+                    newSpawn.DrakkinTattoo = buffer.ReadUInt32();
+                    newSpawn.DrakkinDetails = buffer.ReadUInt32();    
+                }
+                
                 newSpawn.EquipChest2 = buffer.ReadByte();
                 var useWorn = (newSpawn.EquipChest2 == 255);
                 buffer.SkipBytes(2);    // 2 Unknown bytes;
                 newSpawn.Helm= buffer.ReadByte();
-
                 newSpawn.Size = buffer.ReadSingle();
                 newSpawn.Face = buffer.ReadByte();
                 newSpawn.WalkSpeed = buffer.ReadSingle();
@@ -404,7 +425,6 @@ namespace EQExtractor2.Decoders
                 var expectedLength = buffer.Length();
                 var currentPoint = buffer.GetPosition();
                 Debug.Assert(currentPoint == expectedLength, "Length mismatch while parsing zone spawns");
-
                 zoneSpawns.Add(newSpawn);
             }
             return zoneSpawns;

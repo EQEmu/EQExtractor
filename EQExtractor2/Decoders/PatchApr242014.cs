@@ -210,7 +210,7 @@ namespace EQExtractor2.Decoders
                 outputStream.WriteLine("Position5 untreated {0}", position5);
 
                 var xPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); 
-                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); 
+                var yPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x7FFFF); 
                 var zPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF);  
                 var heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF); 
 
@@ -402,7 +402,7 @@ namespace EQExtractor2.Decoders
                 var position5 = buffer.ReadUInt32();
 
                 newSpawn.XPos = Utils.EQ19ToFloat((Int32)((position4 >> 13) & 0x7FFFF)); 
-                newSpawn.YPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x3FFF); 
+                newSpawn.YPos = Utils.EQ19ToFloat((Int32)(position1 >> 12) & 0x7FFFF); 
                 newSpawn.ZPos = Utils.EQ19ToFloat((Int32)(position3) & 0x7FFFF); 
                 newSpawn.Heading = Utils.EQ19ToFloat((Int32)(position5) & 0x7FF);
 

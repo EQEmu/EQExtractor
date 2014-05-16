@@ -14,13 +14,14 @@ using EQExtractor2.Decoders;
 
 namespace EQExtractor2.Domain
 {
+    using System.IO;
     using System.Runtime.Remoting.Messaging;
 
     public delegate void LogHandler(string message);
 
     class EQStreamProcessor
     {
-
+        private const string ZoneLookupXmlPath = "Configs/ZoneLookups.xml";
         private static ZoneLookups _lookups;
         // PatchSpecificDecoder is the base, Dummy' class from which the actual supported patch version decoders inherit.
         // Setting PatchDecoder to this is a failsafe in case the stream isn't identified.
@@ -40,7 +41,8 @@ namespace EQExtractor2.Domain
         public EQStreamProcessor()
         {
             ZonePointList = null;
-            if(_lookups==null)_lookups = ZoneLookups.Deserialize("Configs/ZoneLookups.xml");
+            if (!File.Exists(ZoneLookupXmlPath)) throw new FileNotFoundException("Unable to proceed without a ZoneLookups.xml file. I was looking here for it:- "+Path.Combine(Environment.CurrentDirectory+ZoneLookupXmlPath));
+            if (_lookups == null) _lookups = ZoneLookups.Deserialize(ZoneLookupXmlPath);
             Packets = new PacketManager();
 
             // Tell the PacketManager to call our Identify method to identify the packet stream. We will then call the different
@@ -255,7 +257,7 @@ namespace EQExtractor2.Domain
 
                     if (zp != null)
                     {
-                        d.DestZone = ZoneNumberToName(zp.Value.TargetZoneID);
+                        d.DestZone = _lookups.ZoneNumberToName(zp.Value.TargetZoneID);
                         d.DestX = zp.Value.TargetX;
                         d.DestY = zp.Value.TargetY;
                         d.DestZ = zp.Value.TargetZ;
@@ -836,15 +838,6 @@ namespace EQExtractor2.Domain
             }
         }
 
-        public static UInt32 ZoneNameToNumber(string zoneName)
-        {
-            return _lookups.ZoneNameToNumber(zoneName);
-        }
-
-        public static string ZoneNumberToName(UInt32 zoneNumber)
-        {
-            return _lookups.ZoneNumberToName(zoneNumber);
-        }
 
         public bool SupportsSQLGeneration()
         {

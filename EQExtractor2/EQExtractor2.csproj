@@ -144,7 +144,7 @@
     <Compile Include="Domain\Utils.cs" />
     <Compile Include="Domain\ZoneOpCodeRegister.cs" />
     <Content Include="Configs\ZoneLookups.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="EQExtractor2Form1.resx">
       <DependentUpon>EQExtractor2Form1.cs</DependentUpon>

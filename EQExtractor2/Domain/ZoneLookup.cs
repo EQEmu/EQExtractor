@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 
 namespace EQExtractor2.Domain
 {
+    using System.Linq;
+
     public class ZoneLookups
     {
         private List<ZoneLookup> _zones = new List<ZoneLookup>();
@@ -27,7 +29,7 @@ namespace EQExtractor2.Domain
                 if (_zones == null) return;
                 foreach (var zone in _zones)
                 {
-                    if(!_zonesByName.ContainsKey(zone.Name))_zonesByName.Add(zone.Name,zone.Number);
+                    if (!_zonesByName.ContainsKey(zone.Name))_zonesByName.Add(zone.Name,zone.Number);
                     if (!_zonesByNumber.ContainsKey(zone.Number)) _zonesByNumber.Add(zone.Number, zone.Name);
                 }
             }
@@ -35,11 +37,25 @@ namespace EQExtractor2.Domain
 
         public string ZoneNumberToName(UInt32 zoneNumber)
         {
+            if (!_zonesByNumber.Any() && _zones.Any())
+            {
+                foreach (var zone in _zones)
+                {
+                    if (!_zonesByNumber.ContainsKey(zone.Number)) _zonesByNumber.Add(zone.Number, zone.Name);
+                }
+            }
             return _zonesByNumber.ContainsKey(zoneNumber) ? _zonesByNumber[zoneNumber] : "UNKNOWNZONE";
         }
 
         public UInt32 ZoneNameToNumber(string zoneName)
         {
+            if (!_zonesByName.Any() && _zones.Any())
+            {
+                foreach (var zone in _zones)
+                {
+                    if (!_zonesByName.ContainsKey(zone.Name)) _zonesByName.Add(zone.Name, zone.Number);
+                }
+            }
             return _zonesByName.ContainsKey(zoneName) ? _zonesByName[zoneName] : 0;
         }
 

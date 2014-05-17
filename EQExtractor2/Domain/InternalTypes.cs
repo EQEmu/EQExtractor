@@ -116,6 +116,7 @@ namespace EQExtractor2.Domain
         public byte EyeColor2;
         public byte HairStyle;
         public byte Beard;
+        public byte StandState;
         public UInt32 DrakkinHeritage;
         public UInt32 DrakkinTattoo;
         public UInt32 DrakkinDetails;

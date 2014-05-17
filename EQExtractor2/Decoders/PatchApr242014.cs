@@ -133,7 +133,7 @@ namespace EQExtractor2.Decoders
                 outputStream.WriteLine("Class = {0}", buffer.ReadUInt32());//verified
                 outputStream.WriteLine("Size: {0}, Face: {1}, Walkspeed: {2}, RunSpeed: {3}, Race: {4}", size, face,walkSpeed, runSpeed, race);
                 buffer.SkipBytes(1); //PVP-//unverified
-                outputStream.WriteLine("State = {0}", buffer.ReadByte());//unverified
+                outputStream.WriteLine("Stand State = {0}", buffer.ReadByte());//unverified
                 outputStream.WriteLine("Light = {0}", buffer.ReadByte());//unverified
                 buffer.SkipBytes(1); //Flymode! //unverified
                 var lastName = buffer.ReadString(false);
@@ -328,7 +328,9 @@ namespace EQExtractor2.Decoders
                 newSpawn.Deity = buffer.ReadUInt32();
                 buffer.SkipBytes(8);    // Skip GuildID and GuildRank
                 newSpawn.Class = buffer.ReadUInt32();
-                buffer.SkipBytes(4);     // Skip PVP, Standstate, Light, Flymode
+                buffer.SkipBytes(1);     // Skip PVP, Standstate, Light, Flymode
+                newSpawn.StandState = buffer.ReadByte(); //110 is sitting, 100 is standing, 120 is FD/corpse, mounts show as 102
+                buffer.SkipBytes(2);
                 newSpawn.LastName = buffer.ReadString(true);
 
                 buffer.SkipBytes(6);

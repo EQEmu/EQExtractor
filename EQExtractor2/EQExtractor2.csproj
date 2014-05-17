@@ -80,6 +80,7 @@
     <Compile Include="Domain\PCapProcessor.cs" />
     <Compile Include="Domain\SqlGenerator.cs" />
     <Compile Include="Domain\SqlGeneratorConfiguration.cs" />
+    <Compile Include="Domain\StandStateMapper.cs" />
     <Compile Include="Domain\ZoneLookup.cs" />
     <Compile Include="GenerateSQLForm.cs">
       <SubType>Form</SubType>

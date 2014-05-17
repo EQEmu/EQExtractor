@@ -427,9 +427,9 @@ namespace EQExtractor2.Domain
                 string SpawnEntryQuery = "INSERT INTO spawnentry(`spawngroupID`, `npcID`, `chance`) VALUES(";
                 SpawnEntryQuery += "@StartingSpawnEntryID + " + SpawnEntryID + ", @StartingNPCTypeID + " + ExistingDBID + ", " + "100);";
 
-                string Spawn2EntryQuery = "INSERT INTO spawn2(`id`, `spawngroupID`, `zone`, `version`, `x`, `y`, `z`, `heading`, `respawntime`, `variance`, `pathgrid`, `_condition`, `cond_value`, `enabled`) VALUES(";
+                string Spawn2EntryQuery = "INSERT INTO spawn2(`id`, `spawngroupID`, `zone`, `version`, `x`, `y`, `z`, `heading`, `respawntime`, `variance`, `pathgrid`, `_condition`, `cond_value`, `enabled`,`animation`) VALUES(";
                 Spawn2EntryQuery += "@StartingSpawn2ID + " + Spawn2ID + ", @StartingSpawnGroupID + " + SpawnGroupID + ", '" + ZoneName + "', " + SpawnVersion + ", " + Spawn.XPos + ", " + Spawn.YPos + ", " + Spawn.ZPos + ", ";
-                Spawn2EntryQuery += Spawn.Heading + ", 640, 0, 0, 0, 1, 1);";
+                Spawn2EntryQuery += Spawn.Heading + ", 640, 0, 0, 0, 1, 1"+","+ StandStateMapper.MapEqStandStateToEmuAnimation(Spawn.StandState).ToString()+");";
 
                 SpawnGroupID++;
                 SpawnEntryID++;

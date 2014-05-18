@@ -360,7 +360,7 @@ namespace EQExtractor2.Domain
                     NPCType NewNPCType = new NPCType(NPCTypeDBID, Spawn.SpawnName, Spawn.Level, Spawn.Gender, Spawn.Size, Spawn.Face, Spawn.WalkSpeed, Spawn.RunSpeed, Spawn.Race,
                        Spawn.BodyType, Spawn.HairColor, Spawn.BeardColor, Spawn.EyeColor1, Spawn.EyeColor2, Spawn.HairStyle, Spawn.Beard,
                        Spawn.DrakkinHeritage, Spawn.DrakkinTattoo, Spawn.DrakkinDetails, Spawn.Deity, Spawn.Class, Spawn.EquipChest2,
-                       Spawn.Helm, Spawn.LastName, Spawn.Findable, Spawn.MeleeTexture1, Spawn.MeleeTexture2, Spawn.ArmorTintRed, Spawn.ArmorTintGreen, Spawn.ArmorTintBlue, Spawn.SlotColour);
+                       Spawn.Helm, Spawn.LastName, Spawn.Findable, Spawn.MeleeTexture1, Spawn.MeleeTexture2, Spawn.ArmorTintRed, Spawn.ArmorTintGreen, Spawn.ArmorTintBlue, Spawn.SlotColour,Spawn.StandState);
 
                     NPCTL.AddNPCType(NewNPCType);
 

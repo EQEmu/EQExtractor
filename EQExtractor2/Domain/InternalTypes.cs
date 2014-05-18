@@ -440,7 +440,7 @@ namespace EQExtractor2.Domain
                        UInt32 BodyType, Byte HairColor, Byte BeardColor, Byte EyeColor1, Byte EyeColor2, Byte HairStyle, Byte Beard,
                        UInt32 DrakkinHeritage, UInt32 DrakkinTattoo, UInt32 DrakkinDetails, UInt32 Deity, UInt32 Class, Byte EquipChest2,
                        Byte Helm, string LastName, bool Findable, UInt32 MeleeTexture1, UInt32 MeleeTexture2,
-                       UInt32 ArmorTintRed, UInt32 ArmorTintGreen, UInt32 ArmorTintBlue, UInt32[] SlotColour)
+                       UInt32 ArmorTintRed, UInt32 ArmorTintGreen, UInt32 ArmorTintBlue, UInt32[] SlotColour, byte standState)
         {
             this.DBID = DBID;
             this.Name = Name;
@@ -473,6 +473,7 @@ namespace EQExtractor2.Domain
             this.ArmorTintGreen = ArmorTintGreen;
             this.ArmorTintBlue = ArmorTintBlue;
             this.SlotColour = SlotColour;
+            this.StandState = standState;
             this.Unique = true;
 
 
@@ -526,6 +527,7 @@ namespace EQExtractor2.Domain
         public UInt32 Class = 0;
         public Byte EquipChest2 = 0;
         public Byte Helm = 0;
+        public Byte StandState = 0;
         public string LastName = "";
         public bool Findable = false;
         public UInt32 MeleeTexture1 = 0;

@@ -19,7 +19,7 @@ namespace EQExtractor2.Domain
                 case 120:
                     return 3; //fd
                 default:
-                    throw new ArgumentOutOfRangeException("input","invalid stand state");
+                    throw new ArgumentOutOfRangeException("input",string.Format("invalid stand state={0}",input));
             }
         }
     }

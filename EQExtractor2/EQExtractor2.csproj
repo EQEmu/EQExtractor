@@ -76,8 +76,10 @@
   <ItemGroup>
     <Compile Include="BuildVersion.cs" />
     <Compile Include="Decoders\PatchApr242014.cs" />
+    <Compile Include="Decoders\PatchMay19-2014.cs" />
     <Compile Include="Decoders\PatchTestApr242014.cs" />
     <Compile Include="Domain\PCapProcessor.cs" />
+    <Compile Include="Domain\SpawnPosition.cs" />
     <Compile Include="Domain\SqlGenerator.cs" />
     <Compile Include="Domain\SqlGeneratorConfiguration.cs" />
     <Compile Include="Domain\StandStateMapper.cs" />
@@ -244,6 +246,9 @@
     <None Include="Configs\patch_Apr24-2014.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Configs\patch_May19-2014.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

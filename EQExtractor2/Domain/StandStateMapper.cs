@@ -16,6 +16,7 @@ namespace EQExtractor2.Domain
                     return 0;
                 case 110:
                     return 1;//sitting
+                case 115:
                 case 120:
                     return 3; //fd
                 default:
